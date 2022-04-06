@@ -1,0 +1,49 @@
+entity Usuario {
+    nome String
+    cpf String
+    dataNascimento LocalDate
+    criacao ZonedDateTime
+}
+entity Endereco{
+    cep String
+    logradouro String
+    complemento String
+    numero String
+    bairro String
+    cidade String
+    estado String
+    criacao ZonedDateTime
+}
+entity Professor{
+    nome String
+    cpf String
+    dataNascimento LocalDate
+    criacao ZonedDateTime
+}
+entity Curso{
+	curso String
+    duracaoCH Double
+    descricao String
+    valor Double
+    criacao ZonedDateTime
+}
+relationship ManyToOne{
+    Endereco{usuario} to Usuario
+}
+
+relationship ManyToOne{
+    Endereco{professor} to Professor
+}
+
+relationship ManyToOne{
+    Curso{professor} to Professor
+}
+
+relationship ManyToOne{
+	Curso{usuario} to Usuario
+}
+// Set pagination options
+paginate * with pagination
+dto * with mapstruct
+service all with serviceImpl
+filter *
