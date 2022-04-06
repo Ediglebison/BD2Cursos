@@ -1,0 +1,49 @@
+{
+  "applications": "*",
+  "changelogDate": "20220406043742",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "curso",
+  "fields": [
+    {
+      "fieldName": "curso",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "duracaoCH",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "descricao",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "valor",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "criacao",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Curso",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "professor",
+      "otherEntityRelationshipName": "curso",
+      "relationshipName": "professor",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "curso",
+      "relationshipName": "usuario",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
