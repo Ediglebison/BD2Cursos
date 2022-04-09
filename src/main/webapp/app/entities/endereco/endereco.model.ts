@@ -1,6 +1,5 @@
 import dayjs from 'dayjs/esm';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { IProfessor } from 'app/entities/professor/professor.model';
 
 export interface IEndereco {
   id?: number;
@@ -13,7 +12,6 @@ export interface IEndereco {
   estado?: string | null;
   criacao?: dayjs.Dayjs | null;
   usuario?: IUsuario | null;
-  professor?: IProfessor | null;
 }
 
 export class Endereco implements IEndereco {
@@ -27,8 +25,7 @@ export class Endereco implements IEndereco {
     public cidade?: string | null,
     public estado?: string | null,
     public criacao?: dayjs.Dayjs | null,
-    public usuario?: IUsuario | null,
-    public professor?: IProfessor | null
+    public usuario?: IUsuario | null
   ) {}
 }
 

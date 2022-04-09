@@ -90,8 +90,8 @@ public class CursoQueryService extends QueryService<Curso> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Curso_.id));
             }
-            if (criteria.getCurso() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCurso(), Curso_.curso));
+            if (criteria.getTitulo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTitulo(), Curso_.titulo));
             }
             if (criteria.getDuracaoCH() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDuracaoCH(), Curso_.duracaoCH));
@@ -108,13 +108,13 @@ public class CursoQueryService extends QueryService<Curso> {
             if (criteria.getProfessorId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getProfessorId(), root -> root.join(Curso_.professor, JoinType.LEFT).get(Professor_.id))
+                        buildSpecification(criteria.getProfessorId(), root -> root.join(Curso_.professor, JoinType.LEFT).get(Usuario_.id))
                     );
             }
-            if (criteria.getUsuarioId() != null) {
+            if (criteria.getAlunoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getUsuarioId(), root -> root.join(Curso_.usuario, JoinType.LEFT).get(Usuario_.id))
+                        buildSpecification(criteria.getAlunoId(), root -> root.join(Curso_.aluno, JoinType.LEFT).get(Usuario_.id))
                     );
             }
         }

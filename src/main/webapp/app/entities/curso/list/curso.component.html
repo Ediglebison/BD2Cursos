@@ -33,7 +33,9 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="curso"><span jhiTranslate="bd2CursosApp.curso.curso">Curso</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="titulo">
+            <span jhiTranslate="bd2CursosApp.curso.titulo">Titulo</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="duracaoCH">
             <span jhiTranslate="bd2CursosApp.curso.duracaoCH">Duracao CH</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -47,8 +49,8 @@
           <th scope="col" jhiSortBy="professor.id">
             <span jhiTranslate="bd2CursosApp.curso.professor">Professor</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="usuario.id">
-            <span jhiTranslate="bd2CursosApp.curso.usuario">Usuario</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="aluno.id">
+            <span jhiTranslate="bd2CursosApp.curso.aluno">Aluno</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col"></th>
         </tr>
@@ -58,19 +60,19 @@
           <td>
             <a [routerLink]="['/curso', curso.id, 'view']">{{ curso.id }}</a>
           </td>
-          <td>{{ curso.curso }}</td>
+          <td>{{ curso.titulo }}</td>
           <td>{{ curso.duracaoCH }}</td>
           <td>{{ curso.descricao }}</td>
           <td>{{ curso.valor }}</td>
           <td>{{ curso.criacao | formatMediumDatetime }}</td>
           <td>
             <div *ngIf="curso.professor">
-              <a [routerLink]="['/professor', curso.professor?.id, 'view']">{{ curso.professor?.id }}</a>
+              <a [routerLink]="['/usuario', curso.professor?.id, 'view']">{{ curso.professor?.id }}</a>
             </div>
           </td>
           <td>
-            <div *ngIf="curso.usuario">
-              <a [routerLink]="['/usuario', curso.usuario?.id, 'view']">{{ curso.usuario?.id }}</a>
+            <div *ngIf="curso.aluno">
+              <a [routerLink]="['/usuario', curso.aluno?.id, 'view']">{{ curso.aluno?.id }}</a>
             </div>
           </td>
           <td class="text-end">

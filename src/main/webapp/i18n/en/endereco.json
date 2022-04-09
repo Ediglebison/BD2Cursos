@@ -26,8 +26,7 @@
       "cidade": "Cidade",
       "estado": "Estado",
       "criacao": "Criacao",
-      "usuario": "Usuario",
-      "professor": "Professor"
+      "usuario": "Usuario"
     }
   }
 }

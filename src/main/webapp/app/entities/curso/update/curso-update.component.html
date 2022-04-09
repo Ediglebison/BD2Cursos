@@ -14,8 +14,13 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="bd2CursosApp.curso.curso" for="field_curso">Curso</label>
-          <input type="text" class="form-control" name="curso" id="field_curso" data-cy="curso" formControlName="curso" />
+          <label class="form-label" jhiTranslate="bd2CursosApp.curso.titulo" for="field_titulo">Titulo</label>
+          <input type="text" class="form-control" name="titulo" id="field_titulo" data-cy="titulo" formControlName="titulo" />
+          <div *ngIf="editForm.get('titulo')!.invalid && (editForm.get('titulo')!.dirty || editForm.get('titulo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('titulo')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -53,20 +58,20 @@
           <select class="form-control" id="field_professor" data-cy="professor" name="professor" formControlName="professor">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="professorOption.id === editForm.get('professor')!.value?.id ? editForm.get('professor')!.value : professorOption"
-              *ngFor="let professorOption of professorsSharedCollection; trackBy: trackProfessorById"
+              [ngValue]="usuarioOption.id === editForm.get('professor')!.value?.id ? editForm.get('professor')!.value : usuarioOption"
+              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
             >
-              {{ professorOption.id }}
+              {{ usuarioOption.id }}
             </option>
           </select>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="bd2CursosApp.curso.usuario" for="field_usuario">Usuario</label>
-          <select class="form-control" id="field_usuario" data-cy="usuario" name="usuario" formControlName="usuario">
+          <label class="form-label" jhiTranslate="bd2CursosApp.curso.aluno" for="field_aluno">Aluno</label>
+          <select class="form-control" id="field_aluno" data-cy="aluno" name="aluno" formControlName="aluno">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="usuarioOption.id === editForm.get('usuario')!.value?.id ? editForm.get('usuario')!.value : usuarioOption"
+              [ngValue]="usuarioOption.id === editForm.get('aluno')!.value?.id ? editForm.get('aluno')!.value : usuarioOption"
               *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
             >
               {{ usuarioOption.id }}

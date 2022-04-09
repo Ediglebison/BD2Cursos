@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IUsuario, Usuario } from '../usuario.model';
 import { UsuarioService } from '../service/usuario.service';
+import { TipoUsuario } from 'app/entities/enumerations/tipo-usuario.model';
 
 @Component({
   selector: 'jhi-usuario-update',
@@ -17,12 +18,14 @@ import { UsuarioService } from '../service/usuario.service';
 })
 export class UsuarioUpdateComponent implements OnInit {
   isSaving = false;
+  tipoUsuarioValues = Object.keys(TipoUsuario);
 
   editForm = this.fb.group({
     id: [],
-    nome: [],
+    nome: [null, [Validators.required]],
     cpf: [],
     dataNascimento: [],
+    tipo: [],
     criacao: [],
   });
 
@@ -78,6 +81,7 @@ export class UsuarioUpdateComponent implements OnInit {
       nome: usuario.nome,
       cpf: usuario.cpf,
       dataNascimento: usuario.dataNascimento,
+      tipo: usuario.tipo,
       criacao: usuario.criacao ? usuario.criacao.format(DATE_TIME_FORMAT) : null,
     });
   }
@@ -89,6 +93,7 @@ export class UsuarioUpdateComponent implements OnInit {
       nome: this.editForm.get(['nome'])!.value,
       cpf: this.editForm.get(['cpf'])!.value,
       dataNascimento: this.editForm.get(['dataNascimento'])!.value,
+      tipo: this.editForm.get(['tipo'])!.value,
       criacao: this.editForm.get(['criacao'])!.value ? dayjs(this.editForm.get(['criacao'])!.value, DATE_TIME_FORMAT) : undefined,
     };
   }

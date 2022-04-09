@@ -18,13 +18,13 @@
         "title": "Curso"
       },
       "id": "ID",
-      "curso": "Curso",
+      "titulo": "Titulo",
       "duracaoCH": "Duracao CH",
       "descricao": "Descricao",
       "valor": "Valor",
       "criacao": "Criacao",
       "professor": "Professor",
-      "usuario": "Usuario"
+      "aluno": "Aluno"
     }
   }
 }

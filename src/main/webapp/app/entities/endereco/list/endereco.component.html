@@ -58,9 +58,6 @@
           <th scope="col" jhiSortBy="usuario.id">
             <span jhiTranslate="bd2CursosApp.endereco.usuario">Usuario</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="professor.id">
-            <span jhiTranslate="bd2CursosApp.endereco.professor">Professor</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -80,11 +77,6 @@
           <td>
             <div *ngIf="endereco.usuario">
               <a [routerLink]="['/usuario', endereco.usuario?.id, 'view']">{{ endereco.usuario?.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="endereco.professor">
-              <a [routerLink]="['/professor', endereco.professor?.id, 'view']">{{ endereco.professor?.id }}</a>
             </div>
           </td>
           <td class="text-end">

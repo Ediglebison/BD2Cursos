@@ -18,6 +18,14 @@ public interface UsuarioService {
     UsuarioDTO save(UsuarioDTO usuarioDTO);
 
     /**
+     * Updates a usuario.
+     *
+     * @param usuarioDTO the entity to update.
+     * @return the persisted entity.
+     */
+    UsuarioDTO update(UsuarioDTO usuarioDTO);
+
+    /**
      * Partially updates a usuario.
      *
      * @param usuarioDTO the entity to update partially.

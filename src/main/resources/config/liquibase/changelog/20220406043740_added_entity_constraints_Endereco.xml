@@ -13,11 +13,5 @@
                                  constraintName="fk_endereco__usuario_id"
                                  referencedColumnNames="id"
                                  referencedTableName="usuario"/>
-
-        <addForeignKeyConstraint baseColumnNames="professor_id"
-                                 baseTableName="endereco"
-                                 constraintName="fk_endereco__professor_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="professor"/>
     </changeSet>
 </databaseChangeLog>

@@ -52,6 +52,7 @@ public class CacheConfiguration {
             createCache(cm, com.bd2cursos.myapp.domain.Endereco.class.getName());
             createCache(cm, com.bd2cursos.myapp.domain.Professor.class.getName());
             createCache(cm, com.bd2cursos.myapp.domain.Curso.class.getName());
+            createCache(cm, com.bd2cursos.myapp.domain.Compra.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

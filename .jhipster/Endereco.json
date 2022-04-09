@@ -49,12 +49,6 @@
       "otherEntityRelationshipName": "endereco",
       "relationshipName": "usuario",
       "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "professor",
-      "otherEntityRelationshipName": "endereco",
-      "relationshipName": "professor",
-      "relationshipType": "many-to-one"
     }
   ],
   "service": "serviceImpl"

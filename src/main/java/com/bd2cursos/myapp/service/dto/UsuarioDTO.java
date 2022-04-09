@@ -1,9 +1,11 @@
 package com.bd2cursos.myapp.service.dto;
 
+import com.bd2cursos.myapp.domain.enumeration.TipoUsuario;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.bd2cursos.myapp.domain.Usuario} entity.
@@ -12,11 +14,14 @@ public class UsuarioDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String nome;
 
     private String cpf;
 
     private LocalDate dataNascimento;
+
+    private TipoUsuario tipo;
 
     private ZonedDateTime criacao;
 
@@ -50,6 +55,14 @@ public class UsuarioDTO implements Serializable {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public TipoUsuario getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoUsuario tipo) {
+        this.tipo = tipo;
     }
 
     public ZonedDateTime getCriacao() {
@@ -89,6 +102,7 @@ public class UsuarioDTO implements Serializable {
             ", nome='" + getNome() + "'" +
             ", cpf='" + getCpf() + "'" +
             ", dataNascimento='" + getDataNascimento() + "'" +
+            ", tipo='" + getTipo() + "'" +
             ", criacao='" + getCriacao() + "'" +
             "}";
     }

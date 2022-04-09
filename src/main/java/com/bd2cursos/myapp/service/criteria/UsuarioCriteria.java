@@ -1,5 +1,6 @@
 package com.bd2cursos.myapp.service.criteria;
 
+import com.bd2cursos.myapp.domain.enumeration.TipoUsuario;
 import java.io.Serializable;
 import java.util.Objects;
 import org.springdoc.api.annotations.ParameterObject;
@@ -26,6 +27,23 @@ import tech.jhipster.service.filter.ZonedDateTimeFilter;
 @ParameterObject
 public class UsuarioCriteria implements Serializable, Criteria {
 
+    /**
+     * Class for filtering TipoUsuario
+     */
+    public static class TipoUsuarioFilter extends Filter<TipoUsuario> {
+
+        public TipoUsuarioFilter() {}
+
+        public TipoUsuarioFilter(TipoUsuarioFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public TipoUsuarioFilter copy() {
+            return new TipoUsuarioFilter(this);
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
@@ -35,6 +53,8 @@ public class UsuarioCriteria implements Serializable, Criteria {
     private StringFilter cpf;
 
     private LocalDateFilter dataNascimento;
+
+    private TipoUsuarioFilter tipo;
 
     private ZonedDateTimeFilter criacao;
 
@@ -47,6 +67,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
         this.nome = other.nome == null ? null : other.nome.copy();
         this.cpf = other.cpf == null ? null : other.cpf.copy();
         this.dataNascimento = other.dataNascimento == null ? null : other.dataNascimento.copy();
+        this.tipo = other.tipo == null ? null : other.tipo.copy();
         this.criacao = other.criacao == null ? null : other.criacao.copy();
         this.distinct = other.distinct;
     }
@@ -116,6 +137,21 @@ public class UsuarioCriteria implements Serializable, Criteria {
         this.dataNascimento = dataNascimento;
     }
 
+    public TipoUsuarioFilter getTipo() {
+        return tipo;
+    }
+
+    public TipoUsuarioFilter tipo() {
+        if (tipo == null) {
+            tipo = new TipoUsuarioFilter();
+        }
+        return tipo;
+    }
+
+    public void setTipo(TipoUsuarioFilter tipo) {
+        this.tipo = tipo;
+    }
+
     public ZonedDateTimeFilter getCriacao() {
         return criacao;
     }
@@ -153,6 +189,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
             Objects.equals(nome, that.nome) &&
             Objects.equals(cpf, that.cpf) &&
             Objects.equals(dataNascimento, that.dataNascimento) &&
+            Objects.equals(tipo, that.tipo) &&
             Objects.equals(criacao, that.criacao) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -160,7 +197,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, cpf, dataNascimento, criacao, distinct);
+        return Objects.hash(id, nome, cpf, dataNascimento, tipo, criacao, distinct);
     }
 
     // prettier-ignore
@@ -171,6 +208,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
             (nome != null ? "nome=" + nome + ", " : "") +
             (cpf != null ? "cpf=" + cpf + ", " : "") +
             (dataNascimento != null ? "dataNascimento=" + dataNascimento + ", " : "") +
+            (tipo != null ? "tipo=" + tipo + ", " : "") +
             (criacao != null ? "criacao=" + criacao + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

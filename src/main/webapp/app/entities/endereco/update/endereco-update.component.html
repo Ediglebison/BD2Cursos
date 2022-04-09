@@ -89,19 +89,6 @@
             </option>
           </select>
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="bd2CursosApp.endereco.professor" for="field_professor">Professor</label>
-          <select class="form-control" id="field_professor" data-cy="professor" name="professor" formControlName="professor">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="professorOption.id === editForm.get('professor')!.value?.id ? editForm.get('professor')!.value : professorOption"
-              *ngFor="let professorOption of professorsSharedCollection; trackBy: trackProfessorById"
-            >
-              {{ professorOption.id }}
-            </option>
-          </select>
-        </div>
       </div>
 
       <div>

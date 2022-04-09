@@ -1,11 +1,11 @@
-id;nome;cpf;data_nascimento;criacao
-1;Buckinghamshire transmitting;multimedia;2022-04-05;2022-04-06T00:14:59
-2;Quetzal Crianças Data;program;2022-04-05;2022-04-05T08:14:42
-3;Leone Roraima;Janeiro;2022-04-05;2022-04-05T18:14:19
-4;program Rústico;Berkshire user-centric Madeira;2022-04-05;2022-04-05T16:43:53
-5;program Forward;Automotivo Marginal;2022-04-05;2022-04-05T08:02:45
-6;Genérico morph;withdrawal empower microchip;2022-04-05;2022-04-05T10:50:49
-7;to Front-line;Montserrat Corporate;2022-04-05;2022-04-06T01:51:27
-8;Luvas motivating virtual;Bedfordshire;2022-04-05;2022-04-05T18:52:13
-9;impactful Tunísia Pound;generating Incrível e-commerce;2022-04-05;2022-04-05T22:19:33
-10;methodology invoice CSS;Refinado Uganda;2022-04-05;2022-04-05T10:17:42
+id;nome;cpf;data_nascimento;tipo;criacao
+1;Buckinghamshire transmitting;multimedia;2022-04-05;ALUNO;2022-04-05T10:05:57
+2;benchmark Account primary;esmeralda connecting system;2022-04-05;PROFESSOR;2022-04-05T20:39:36
+3;Somoni convergence;Amapá Licenciado Bedfordshire;2022-04-05;PROFESSOR;2022-04-06T01:07:33
+4;Triple-buffered;program Forward;2022-04-05;ALUNO;2022-04-05T05:44:28
+5;Marginal;PCI Rial Toalhas;2022-04-05;ALUNO;2022-04-05T15:35:02
+6;generation bronze;Bedfordshire Cuba navigating;2022-04-05;PROFESSOR;2022-04-05T06:47:05
+7;Gostoso;Luvas motivating virtual;2022-04-06;PROFESSOR;2022-04-05T23:51:35
+8;Intuitive;auxiliary Human;2022-04-05;PROFESSOR;2022-04-05T11:05:08
+9;Rio collaborative Investment;virtual;2022-04-05;PROFESSOR;2022-04-05T05:27:45
+10;CSS;Refinado Uganda;2022-04-05;PROFESSOR;2022-04-05T21:15:31

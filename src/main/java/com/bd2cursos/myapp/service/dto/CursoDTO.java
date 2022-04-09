@@ -3,6 +3,7 @@ package com.bd2cursos.myapp.service.dto;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.bd2cursos.myapp.domain.Curso} entity.
@@ -11,7 +12,8 @@ public class CursoDTO implements Serializable {
 
     private Long id;
 
-    private String curso;
+    @NotNull
+    private String titulo;
 
     private Double duracaoCH;
 
@@ -21,9 +23,9 @@ public class CursoDTO implements Serializable {
 
     private ZonedDateTime criacao;
 
-    private ProfessorDTO professor;
+    private UsuarioDTO professor;
 
-    private UsuarioDTO usuario;
+    private UsuarioDTO aluno;
 
     public Long getId() {
         return id;
@@ -33,12 +35,12 @@ public class CursoDTO implements Serializable {
         this.id = id;
     }
 
-    public String getCurso() {
-        return curso;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Double getDuracaoCH() {
@@ -73,20 +75,20 @@ public class CursoDTO implements Serializable {
         this.criacao = criacao;
     }
 
-    public ProfessorDTO getProfessor() {
+    public UsuarioDTO getProfessor() {
         return professor;
     }
 
-    public void setProfessor(ProfessorDTO professor) {
+    public void setProfessor(UsuarioDTO professor) {
         this.professor = professor;
     }
 
-    public UsuarioDTO getUsuario() {
-        return usuario;
+    public UsuarioDTO getAluno() {
+        return aluno;
     }
 
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
+    public void setAluno(UsuarioDTO aluno) {
+        this.aluno = aluno;
     }
 
     @Override
@@ -115,13 +117,13 @@ public class CursoDTO implements Serializable {
     public String toString() {
         return "CursoDTO{" +
             "id=" + getId() +
-            ", curso='" + getCurso() + "'" +
+            ", titulo='" + getTitulo() + "'" +
             ", duracaoCH=" + getDuracaoCH() +
             ", descricao='" + getDescricao() + "'" +
             ", valor=" + getValor() +
             ", criacao='" + getCriacao() + "'" +
             ", professor=" + getProfessor() +
-            ", usuario=" + getUsuario() +
+            ", aluno=" + getAluno() +
             "}";
     }
 }

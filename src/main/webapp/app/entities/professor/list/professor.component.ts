@@ -57,7 +57,7 @@ export class ProfessorComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IProfessor): number {
+  trackId(_index: number, item: IProfessor): number {
     return item.id!;
   }
 

@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.bd2cursos.myapp.IntegrationTest;
 import com.bd2cursos.myapp.domain.Endereco;
-import com.bd2cursos.myapp.domain.Professor;
 import com.bd2cursos.myapp.domain.Usuario;
 import com.bd2cursos.myapp.repository.EnderecoRepository;
 import com.bd2cursos.myapp.service.criteria.EnderecoCriteria;
@@ -906,32 +905,6 @@ class EnderecoResourceIT {
 
         // Get all the enderecoList where usuario equals to (usuarioId + 1)
         defaultEnderecoShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllEnderecosByProfessorIsEqualToSomething() throws Exception {
-        // Initialize the database
-        enderecoRepository.saveAndFlush(endereco);
-        Professor professor;
-        if (TestUtil.findAll(em, Professor.class).isEmpty()) {
-            professor = ProfessorResourceIT.createEntity(em);
-            em.persist(professor);
-            em.flush();
-        } else {
-            professor = TestUtil.findAll(em, Professor.class).get(0);
-        }
-        em.persist(professor);
-        em.flush();
-        endereco.setProfessor(professor);
-        enderecoRepository.saveAndFlush(endereco);
-        Long professorId = professor.getId();
-
-        // Get all the enderecoList where professor equals to professorId
-        defaultEnderecoShouldBeFound("professorId.equals=" + professorId);
-
-        // Get all the enderecoList where professor equals to (professorId + 1)
-        defaultEnderecoShouldNotBeFound("professorId.equals=" + (professorId + 1));
     }
 
     /**

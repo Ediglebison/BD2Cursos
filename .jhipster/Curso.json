@@ -6,8 +6,9 @@
   "entityTableName": "curso",
   "fields": [
     {
-      "fieldName": "curso",
-      "fieldType": "String"
+      "fieldName": "titulo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "duracaoCH",
@@ -33,7 +34,7 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "professor",
+      "otherEntityName": "usuario",
       "otherEntityRelationshipName": "curso",
       "relationshipName": "professor",
       "relationshipType": "many-to-one"
@@ -41,7 +42,7 @@
     {
       "otherEntityName": "usuario",
       "otherEntityRelationshipName": "curso",
-      "relationshipName": "usuario",
+      "relationshipName": "aluno",
       "relationshipType": "many-to-one"
     }
   ],

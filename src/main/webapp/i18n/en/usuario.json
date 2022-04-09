@@ -21,6 +21,7 @@
       "nome": "Nome",
       "cpf": "Cpf",
       "dataNascimento": "Data Nascimento",
+      "tipo": "Tipo",
       "criacao": "Criacao"
     }
   }

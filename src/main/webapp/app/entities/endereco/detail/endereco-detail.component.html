@@ -52,12 +52,6 @@
             <a [routerLink]="['/usuario', endereco.usuario?.id, 'view']">{{ endereco.usuario?.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="bd2CursosApp.endereco.professor">Professor</span></dt>
-        <dd>
-          <div *ngIf="endereco.professor">
-            <a [routerLink]="['/professor', endereco.professor?.id, 'view']">{{ endereco.professor?.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

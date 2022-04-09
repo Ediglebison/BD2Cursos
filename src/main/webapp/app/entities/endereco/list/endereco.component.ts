@@ -57,7 +57,7 @@ export class EnderecoComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IEndereco): number {
+  trackId(_index: number, item: IEndereco): number {
     return item.id!;
   }
 

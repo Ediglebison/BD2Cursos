@@ -57,7 +57,7 @@ export class CursoComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: ICurso): number {
+  trackId(_index: number, item: ICurso): number {
     return item.id!;
   }
 
