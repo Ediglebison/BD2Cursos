@@ -1,8 +1,12 @@
 entity Usuario {
-    nome String
+    nome String required
     cpf String
     dataNascimento LocalDate
+    tipo TipoUsuario
     criacao ZonedDateTime
+}
+enum TipoUsuario{
+	ALUNO, PROFESSOR
 }
 entity Endereco{
     cep String
@@ -14,33 +18,34 @@ entity Endereco{
     estado String
     criacao ZonedDateTime
 }
-entity Professor{
-    nome String
-    cpf String
-    dataNascimento LocalDate
-    criacao ZonedDateTime
+
+entity Compra {
+	//usuario
+    //curso
+    percentualDesconto Double
+    valorFinal Double
+    dataCriacao ZonedDateTime
+    estado EstadoTransacao
 }
-entity Curso{
+
+enum EstadoTransacao {
+	CRIADO, AGUARDANDO_PAGAMENTO, PAGO, EXPIRADO, CANCELADO
+}
+
+entity Curso {
 	curso String
     duracaoCH Double
     descricao String
     valor Double
     criacao ZonedDateTime
 }
+
 relationship ManyToOne{
+	Compra{curso(nome)} to Curso
+	Compra{usuario(nome)} to Usuario
     Endereco{usuario} to Usuario
-}
-
-relationship ManyToOne{
-    Endereco{professor} to Professor
-}
-
-relationship ManyToOne{
-    Curso{professor} to Professor
-}
-
-relationship ManyToOne{
-	Curso{usuario} to Usuario
+    Curso{professor} to Usuario
+	Curso{aluno} to Usuario
 }
 // Set pagination options
 paginate * with pagination
