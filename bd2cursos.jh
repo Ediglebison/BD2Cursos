@@ -33,7 +33,7 @@ enum EstadoTransacao {
 }
 
 entity Curso {
-	curso String
+	titulo String required
     duracaoCH Double
     descricao String
     valor Double
@@ -41,7 +41,7 @@ entity Curso {
 }
 
 relationship ManyToOne{
-	Compra{curso(nome)} to Curso
+	Compra{curso(titulo)} to Curso
 	Compra{usuario(nome)} to Usuario
     Endereco{usuario} to Usuario
     Curso{professor} to Usuario
