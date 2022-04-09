@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.bd2cursos.myapp.IntegrationTest;
 import com.bd2cursos.myapp.domain.Usuario;
+import com.bd2cursos.myapp.domain.enumeration.TipoUsuario;
 import com.bd2cursos.myapp.repository.UsuarioRepository;
 import com.bd2cursos.myapp.service.criteria.UsuarioCriteria;
 import com.bd2cursos.myapp.service.dto.UsuarioDTO;
@@ -48,6 +49,9 @@ class UsuarioResourceIT {
     private static final LocalDate UPDATED_DATA_NASCIMENTO = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_DATA_NASCIMENTO = LocalDate.ofEpochDay(-1L);
 
+    private static final TipoUsuario DEFAULT_TIPO = TipoUsuario.ALUNO;
+    private static final TipoUsuario UPDATED_TIPO = TipoUsuario.PROFESSOR;
+
     private static final ZonedDateTime DEFAULT_CRIACAO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneOffset.UTC);
     private static final ZonedDateTime UPDATED_CRIACAO = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
     private static final ZonedDateTime SMALLER_CRIACAO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
@@ -83,6 +87,7 @@ class UsuarioResourceIT {
             .nome(DEFAULT_NOME)
             .cpf(DEFAULT_CPF)
             .dataNascimento(DEFAULT_DATA_NASCIMENTO)
+            .tipo(DEFAULT_TIPO)
             .criacao(DEFAULT_CRIACAO);
         return usuario;
     }
@@ -98,6 +103,7 @@ class UsuarioResourceIT {
             .nome(UPDATED_NOME)
             .cpf(UPDATED_CPF)
             .dataNascimento(UPDATED_DATA_NASCIMENTO)
+            .tipo(UPDATED_TIPO)
             .criacao(UPDATED_CRIACAO);
         return usuario;
     }
@@ -124,6 +130,7 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getNome()).isEqualTo(DEFAULT_NOME);
         assertThat(testUsuario.getCpf()).isEqualTo(DEFAULT_CPF);
         assertThat(testUsuario.getDataNascimento()).isEqualTo(DEFAULT_DATA_NASCIMENTO);
+        assertThat(testUsuario.getTipo()).isEqualTo(DEFAULT_TIPO);
         assertThat(testUsuario.getCriacao()).isEqualTo(DEFAULT_CRIACAO);
     }
 
@@ -148,6 +155,24 @@ class UsuarioResourceIT {
 
     @Test
     @Transactional
+    void checkNomeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = usuarioRepository.findAll().size();
+        // set the field null
+        usuario.setNome(null);
+
+        // Create the Usuario, which fails.
+        UsuarioDTO usuarioDTO = usuarioMapper.toDto(usuario);
+
+        restUsuarioMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(usuarioDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Usuario> usuarioList = usuarioRepository.findAll();
+        assertThat(usuarioList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllUsuarios() throws Exception {
         // Initialize the database
         usuarioRepository.saveAndFlush(usuario);
@@ -161,6 +186,7 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
             .andExpect(jsonPath("$.[*].cpf").value(hasItem(DEFAULT_CPF)))
             .andExpect(jsonPath("$.[*].dataNascimento").value(hasItem(DEFAULT_DATA_NASCIMENTO.toString())))
+            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
             .andExpect(jsonPath("$.[*].criacao").value(hasItem(sameInstant(DEFAULT_CRIACAO))));
     }
 
@@ -179,6 +205,7 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.nome").value(DEFAULT_NOME))
             .andExpect(jsonPath("$.cpf").value(DEFAULT_CPF))
             .andExpect(jsonPath("$.dataNascimento").value(DEFAULT_DATA_NASCIMENTO.toString()))
+            .andExpect(jsonPath("$.tipo").value(DEFAULT_TIPO.toString()))
             .andExpect(jsonPath("$.criacao").value(sameInstant(DEFAULT_CRIACAO)));
     }
 
@@ -462,6 +489,58 @@ class UsuarioResourceIT {
 
     @Test
     @Transactional
+    void getAllUsuariosByTipoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where tipo equals to DEFAULT_TIPO
+        defaultUsuarioShouldBeFound("tipo.equals=" + DEFAULT_TIPO);
+
+        // Get all the usuarioList where tipo equals to UPDATED_TIPO
+        defaultUsuarioShouldNotBeFound("tipo.equals=" + UPDATED_TIPO);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByTipoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where tipo not equals to DEFAULT_TIPO
+        defaultUsuarioShouldNotBeFound("tipo.notEquals=" + DEFAULT_TIPO);
+
+        // Get all the usuarioList where tipo not equals to UPDATED_TIPO
+        defaultUsuarioShouldBeFound("tipo.notEquals=" + UPDATED_TIPO);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByTipoIsInShouldWork() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where tipo in DEFAULT_TIPO or UPDATED_TIPO
+        defaultUsuarioShouldBeFound("tipo.in=" + DEFAULT_TIPO + "," + UPDATED_TIPO);
+
+        // Get all the usuarioList where tipo equals to UPDATED_TIPO
+        defaultUsuarioShouldNotBeFound("tipo.in=" + UPDATED_TIPO);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByTipoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where tipo is not null
+        defaultUsuarioShouldBeFound("tipo.specified=true");
+
+        // Get all the usuarioList where tipo is null
+        defaultUsuarioShouldNotBeFound("tipo.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllUsuariosByCriacaoIsEqualToSomething() throws Exception {
         // Initialize the database
         usuarioRepository.saveAndFlush(usuario);
@@ -576,6 +655,7 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].nome").value(hasItem(DEFAULT_NOME)))
             .andExpect(jsonPath("$.[*].cpf").value(hasItem(DEFAULT_CPF)))
             .andExpect(jsonPath("$.[*].dataNascimento").value(hasItem(DEFAULT_DATA_NASCIMENTO.toString())))
+            .andExpect(jsonPath("$.[*].tipo").value(hasItem(DEFAULT_TIPO.toString())))
             .andExpect(jsonPath("$.[*].criacao").value(hasItem(sameInstant(DEFAULT_CRIACAO))));
 
         // Check, that the count call also returns 1
@@ -624,7 +704,12 @@ class UsuarioResourceIT {
         Usuario updatedUsuario = usuarioRepository.findById(usuario.getId()).get();
         // Disconnect from session so that the updates on updatedUsuario are not directly saved in db
         em.detach(updatedUsuario);
-        updatedUsuario.nome(UPDATED_NOME).cpf(UPDATED_CPF).dataNascimento(UPDATED_DATA_NASCIMENTO).criacao(UPDATED_CRIACAO);
+        updatedUsuario
+            .nome(UPDATED_NOME)
+            .cpf(UPDATED_CPF)
+            .dataNascimento(UPDATED_DATA_NASCIMENTO)
+            .tipo(UPDATED_TIPO)
+            .criacao(UPDATED_CRIACAO);
         UsuarioDTO usuarioDTO = usuarioMapper.toDto(updatedUsuario);
 
         restUsuarioMockMvc
@@ -642,6 +727,7 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testUsuario.getCpf()).isEqualTo(UPDATED_CPF);
         assertThat(testUsuario.getDataNascimento()).isEqualTo(UPDATED_DATA_NASCIMENTO);
+        assertThat(testUsuario.getTipo()).isEqualTo(UPDATED_TIPO);
         assertThat(testUsuario.getCriacao()).isEqualTo(UPDATED_CRIACAO);
     }
 
@@ -722,7 +808,7 @@ class UsuarioResourceIT {
         Usuario partialUpdatedUsuario = new Usuario();
         partialUpdatedUsuario.setId(usuario.getId());
 
-        partialUpdatedUsuario.nome(UPDATED_NOME).cpf(UPDATED_CPF);
+        partialUpdatedUsuario.nome(UPDATED_NOME).cpf(UPDATED_CPF).criacao(UPDATED_CRIACAO);
 
         restUsuarioMockMvc
             .perform(
@@ -739,7 +825,8 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testUsuario.getCpf()).isEqualTo(UPDATED_CPF);
         assertThat(testUsuario.getDataNascimento()).isEqualTo(DEFAULT_DATA_NASCIMENTO);
-        assertThat(testUsuario.getCriacao()).isEqualTo(DEFAULT_CRIACAO);
+        assertThat(testUsuario.getTipo()).isEqualTo(DEFAULT_TIPO);
+        assertThat(testUsuario.getCriacao()).isEqualTo(UPDATED_CRIACAO);
     }
 
     @Test
@@ -754,7 +841,12 @@ class UsuarioResourceIT {
         Usuario partialUpdatedUsuario = new Usuario();
         partialUpdatedUsuario.setId(usuario.getId());
 
-        partialUpdatedUsuario.nome(UPDATED_NOME).cpf(UPDATED_CPF).dataNascimento(UPDATED_DATA_NASCIMENTO).criacao(UPDATED_CRIACAO);
+        partialUpdatedUsuario
+            .nome(UPDATED_NOME)
+            .cpf(UPDATED_CPF)
+            .dataNascimento(UPDATED_DATA_NASCIMENTO)
+            .tipo(UPDATED_TIPO)
+            .criacao(UPDATED_CRIACAO);
 
         restUsuarioMockMvc
             .perform(
@@ -771,6 +863,7 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getNome()).isEqualTo(UPDATED_NOME);
         assertThat(testUsuario.getCpf()).isEqualTo(UPDATED_CPF);
         assertThat(testUsuario.getDataNascimento()).isEqualTo(UPDATED_DATA_NASCIMENTO);
+        assertThat(testUsuario.getTipo()).isEqualTo(UPDATED_TIPO);
         assertThat(testUsuario.getCriacao()).isEqualTo(UPDATED_CRIACAO);
     }
 

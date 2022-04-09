@@ -49,9 +49,6 @@ public class Endereco implements Serializable {
     @ManyToOne
     private Usuario usuario;
 
-    @ManyToOne
-    private Professor professor;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -181,19 +178,6 @@ public class Endereco implements Serializable {
 
     public Endereco usuario(Usuario usuario) {
         this.setUsuario(usuario);
-        return this;
-    }
-
-    public Professor getProfessor() {
-        return this.professor;
-    }
-
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
-
-    public Endereco professor(Professor professor) {
-        this.setProfessor(professor);
         return this;
     }
 

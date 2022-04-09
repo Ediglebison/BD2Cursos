@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import dayjs from 'dayjs/esm';
 
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { TipoUsuario } from 'app/entities/enumerations/tipo-usuario.model';
 import { IUsuario, Usuario } from '../usuario.model';
 
 import { UsuarioService } from './usuario.service';
@@ -28,6 +29,7 @@ describe('Usuario Service', () => {
       nome: 'AAAAAAA',
       cpf: 'AAAAAAA',
       dataNascimento: currentDate,
+      tipo: TipoUsuario.ALUNO,
       criacao: currentDate,
     };
   });
@@ -81,6 +83,7 @@ describe('Usuario Service', () => {
           nome: 'BBBBBB',
           cpf: 'BBBBBB',
           dataNascimento: currentDate.format(DATE_FORMAT),
+          tipo: 'BBBBBB',
           criacao: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
@@ -105,6 +108,7 @@ describe('Usuario Service', () => {
       const patchObject = Object.assign(
         {
           cpf: 'BBBBBB',
+          criacao: currentDate.format(DATE_TIME_FORMAT),
         },
         new Usuario()
       );
@@ -133,6 +137,7 @@ describe('Usuario Service', () => {
           nome: 'BBBBBB',
           cpf: 'BBBBBB',
           dataNascimento: currentDate.format(DATE_FORMAT),
+          tipo: 'BBBBBB',
           criacao: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
@@ -191,7 +196,7 @@ describe('Usuario Service', () => {
       });
 
       it('should add only unique Usuario to an array', () => {
-        const usuarioArray: IUsuario[] = [{ id: 123 }, { id: 456 }, { id: 55340 }];
+        const usuarioArray: IUsuario[] = [{ id: 123 }, { id: 456 }, { id: 49027 }];
         const usuarioCollection: IUsuario[] = [{ id: 123 }];
         expectedResult = service.addUsuarioToCollectionIfMissing(usuarioCollection, ...usuarioArray);
         expect(expectedResult).toHaveLength(3);

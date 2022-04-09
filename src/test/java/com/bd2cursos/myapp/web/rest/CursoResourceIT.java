@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.bd2cursos.myapp.IntegrationTest;
 import com.bd2cursos.myapp.domain.Curso;
-import com.bd2cursos.myapp.domain.Professor;
 import com.bd2cursos.myapp.domain.Usuario;
 import com.bd2cursos.myapp.repository.CursoRepository;
 import com.bd2cursos.myapp.service.criteria.CursoCriteria;
@@ -39,8 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class CursoResourceIT {
 
-    private static final String DEFAULT_CURSO = "AAAAAAAAAA";
-    private static final String UPDATED_CURSO = "BBBBBBBBBB";
+    private static final String DEFAULT_TITULO = "AAAAAAAAAA";
+    private static final String UPDATED_TITULO = "BBBBBBBBBB";
 
     private static final Double DEFAULT_DURACAO_CH = 1D;
     private static final Double UPDATED_DURACAO_CH = 2D;
@@ -85,7 +84,7 @@ class CursoResourceIT {
      */
     public static Curso createEntity(EntityManager em) {
         Curso curso = new Curso()
-            .curso(DEFAULT_CURSO)
+            .titulo(DEFAULT_TITULO)
             .duracaoCH(DEFAULT_DURACAO_CH)
             .descricao(DEFAULT_DESCRICAO)
             .valor(DEFAULT_VALOR)
@@ -101,7 +100,7 @@ class CursoResourceIT {
      */
     public static Curso createUpdatedEntity(EntityManager em) {
         Curso curso = new Curso()
-            .curso(UPDATED_CURSO)
+            .titulo(UPDATED_TITULO)
             .duracaoCH(UPDATED_DURACAO_CH)
             .descricao(UPDATED_DESCRICAO)
             .valor(UPDATED_VALOR)
@@ -128,7 +127,7 @@ class CursoResourceIT {
         List<Curso> cursoList = cursoRepository.findAll();
         assertThat(cursoList).hasSize(databaseSizeBeforeCreate + 1);
         Curso testCurso = cursoList.get(cursoList.size() - 1);
-        assertThat(testCurso.getCurso()).isEqualTo(DEFAULT_CURSO);
+        assertThat(testCurso.getTitulo()).isEqualTo(DEFAULT_TITULO);
         assertThat(testCurso.getDuracaoCH()).isEqualTo(DEFAULT_DURACAO_CH);
         assertThat(testCurso.getDescricao()).isEqualTo(DEFAULT_DESCRICAO);
         assertThat(testCurso.getValor()).isEqualTo(DEFAULT_VALOR);
@@ -156,6 +155,24 @@ class CursoResourceIT {
 
     @Test
     @Transactional
+    void checkTituloIsRequired() throws Exception {
+        int databaseSizeBeforeTest = cursoRepository.findAll().size();
+        // set the field null
+        curso.setTitulo(null);
+
+        // Create the Curso, which fails.
+        CursoDTO cursoDTO = cursoMapper.toDto(curso);
+
+        restCursoMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(cursoDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Curso> cursoList = cursoRepository.findAll();
+        assertThat(cursoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllCursos() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
@@ -166,7 +183,7 @@ class CursoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(curso.getId().intValue())))
-            .andExpect(jsonPath("$.[*].curso").value(hasItem(DEFAULT_CURSO)))
+            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].duracaoCH").value(hasItem(DEFAULT_DURACAO_CH.doubleValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].valor").value(hasItem(DEFAULT_VALOR.doubleValue())))
@@ -185,7 +202,7 @@ class CursoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(curso.getId().intValue()))
-            .andExpect(jsonPath("$.curso").value(DEFAULT_CURSO))
+            .andExpect(jsonPath("$.titulo").value(DEFAULT_TITULO))
             .andExpect(jsonPath("$.duracaoCH").value(DEFAULT_DURACAO_CH.doubleValue()))
             .andExpect(jsonPath("$.descricao").value(DEFAULT_DESCRICAO))
             .andExpect(jsonPath("$.valor").value(DEFAULT_VALOR.doubleValue()))
@@ -212,80 +229,80 @@ class CursoResourceIT {
 
     @Test
     @Transactional
-    void getAllCursosByCursoIsEqualToSomething() throws Exception {
+    void getAllCursosByTituloIsEqualToSomething() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
 
-        // Get all the cursoList where curso equals to DEFAULT_CURSO
-        defaultCursoShouldBeFound("curso.equals=" + DEFAULT_CURSO);
+        // Get all the cursoList where titulo equals to DEFAULT_TITULO
+        defaultCursoShouldBeFound("titulo.equals=" + DEFAULT_TITULO);
 
-        // Get all the cursoList where curso equals to UPDATED_CURSO
-        defaultCursoShouldNotBeFound("curso.equals=" + UPDATED_CURSO);
+        // Get all the cursoList where titulo equals to UPDATED_TITULO
+        defaultCursoShouldNotBeFound("titulo.equals=" + UPDATED_TITULO);
     }
 
     @Test
     @Transactional
-    void getAllCursosByCursoIsNotEqualToSomething() throws Exception {
+    void getAllCursosByTituloIsNotEqualToSomething() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
 
-        // Get all the cursoList where curso not equals to DEFAULT_CURSO
-        defaultCursoShouldNotBeFound("curso.notEquals=" + DEFAULT_CURSO);
+        // Get all the cursoList where titulo not equals to DEFAULT_TITULO
+        defaultCursoShouldNotBeFound("titulo.notEquals=" + DEFAULT_TITULO);
 
-        // Get all the cursoList where curso not equals to UPDATED_CURSO
-        defaultCursoShouldBeFound("curso.notEquals=" + UPDATED_CURSO);
+        // Get all the cursoList where titulo not equals to UPDATED_TITULO
+        defaultCursoShouldBeFound("titulo.notEquals=" + UPDATED_TITULO);
     }
 
     @Test
     @Transactional
-    void getAllCursosByCursoIsInShouldWork() throws Exception {
+    void getAllCursosByTituloIsInShouldWork() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
 
-        // Get all the cursoList where curso in DEFAULT_CURSO or UPDATED_CURSO
-        defaultCursoShouldBeFound("curso.in=" + DEFAULT_CURSO + "," + UPDATED_CURSO);
+        // Get all the cursoList where titulo in DEFAULT_TITULO or UPDATED_TITULO
+        defaultCursoShouldBeFound("titulo.in=" + DEFAULT_TITULO + "," + UPDATED_TITULO);
 
-        // Get all the cursoList where curso equals to UPDATED_CURSO
-        defaultCursoShouldNotBeFound("curso.in=" + UPDATED_CURSO);
+        // Get all the cursoList where titulo equals to UPDATED_TITULO
+        defaultCursoShouldNotBeFound("titulo.in=" + UPDATED_TITULO);
     }
 
     @Test
     @Transactional
-    void getAllCursosByCursoIsNullOrNotNull() throws Exception {
+    void getAllCursosByTituloIsNullOrNotNull() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
 
-        // Get all the cursoList where curso is not null
-        defaultCursoShouldBeFound("curso.specified=true");
+        // Get all the cursoList where titulo is not null
+        defaultCursoShouldBeFound("titulo.specified=true");
 
-        // Get all the cursoList where curso is null
-        defaultCursoShouldNotBeFound("curso.specified=false");
+        // Get all the cursoList where titulo is null
+        defaultCursoShouldNotBeFound("titulo.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCursosByCursoContainsSomething() throws Exception {
+    void getAllCursosByTituloContainsSomething() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
 
-        // Get all the cursoList where curso contains DEFAULT_CURSO
-        defaultCursoShouldBeFound("curso.contains=" + DEFAULT_CURSO);
+        // Get all the cursoList where titulo contains DEFAULT_TITULO
+        defaultCursoShouldBeFound("titulo.contains=" + DEFAULT_TITULO);
 
-        // Get all the cursoList where curso contains UPDATED_CURSO
-        defaultCursoShouldNotBeFound("curso.contains=" + UPDATED_CURSO);
+        // Get all the cursoList where titulo contains UPDATED_TITULO
+        defaultCursoShouldNotBeFound("titulo.contains=" + UPDATED_TITULO);
     }
 
     @Test
     @Transactional
-    void getAllCursosByCursoNotContainsSomething() throws Exception {
+    void getAllCursosByTituloNotContainsSomething() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
 
-        // Get all the cursoList where curso does not contain DEFAULT_CURSO
-        defaultCursoShouldNotBeFound("curso.doesNotContain=" + DEFAULT_CURSO);
+        // Get all the cursoList where titulo does not contain DEFAULT_TITULO
+        defaultCursoShouldNotBeFound("titulo.doesNotContain=" + DEFAULT_TITULO);
 
-        // Get all the cursoList where curso does not contain UPDATED_CURSO
-        defaultCursoShouldBeFound("curso.doesNotContain=" + UPDATED_CURSO);
+        // Get all the cursoList where titulo does not contain UPDATED_TITULO
+        defaultCursoShouldBeFound("titulo.doesNotContain=" + UPDATED_TITULO);
     }
 
     @Test
@@ -683,13 +700,13 @@ class CursoResourceIT {
     void getAllCursosByProfessorIsEqualToSomething() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
-        Professor professor;
-        if (TestUtil.findAll(em, Professor.class).isEmpty()) {
-            professor = ProfessorResourceIT.createEntity(em);
+        Usuario professor;
+        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
+            professor = UsuarioResourceIT.createEntity(em);
             em.persist(professor);
             em.flush();
         } else {
-            professor = TestUtil.findAll(em, Professor.class).get(0);
+            professor = TestUtil.findAll(em, Usuario.class).get(0);
         }
         em.persist(professor);
         em.flush();
@@ -706,28 +723,28 @@ class CursoResourceIT {
 
     @Test
     @Transactional
-    void getAllCursosByUsuarioIsEqualToSomething() throws Exception {
+    void getAllCursosByAlunoIsEqualToSomething() throws Exception {
         // Initialize the database
         cursoRepository.saveAndFlush(curso);
-        Usuario usuario;
+        Usuario aluno;
         if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            usuario = UsuarioResourceIT.createEntity(em);
-            em.persist(usuario);
+            aluno = UsuarioResourceIT.createEntity(em);
+            em.persist(aluno);
             em.flush();
         } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
+            aluno = TestUtil.findAll(em, Usuario.class).get(0);
         }
-        em.persist(usuario);
+        em.persist(aluno);
         em.flush();
-        curso.setUsuario(usuario);
+        curso.setAluno(aluno);
         cursoRepository.saveAndFlush(curso);
-        Long usuarioId = usuario.getId();
+        Long alunoId = aluno.getId();
 
-        // Get all the cursoList where usuario equals to usuarioId
-        defaultCursoShouldBeFound("usuarioId.equals=" + usuarioId);
+        // Get all the cursoList where aluno equals to alunoId
+        defaultCursoShouldBeFound("alunoId.equals=" + alunoId);
 
-        // Get all the cursoList where usuario equals to (usuarioId + 1)
-        defaultCursoShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
+        // Get all the cursoList where aluno equals to (alunoId + 1)
+        defaultCursoShouldNotBeFound("alunoId.equals=" + (alunoId + 1));
     }
 
     /**
@@ -739,7 +756,7 @@ class CursoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(curso.getId().intValue())))
-            .andExpect(jsonPath("$.[*].curso").value(hasItem(DEFAULT_CURSO)))
+            .andExpect(jsonPath("$.[*].titulo").value(hasItem(DEFAULT_TITULO)))
             .andExpect(jsonPath("$.[*].duracaoCH").value(hasItem(DEFAULT_DURACAO_CH.doubleValue())))
             .andExpect(jsonPath("$.[*].descricao").value(hasItem(DEFAULT_DESCRICAO)))
             .andExpect(jsonPath("$.[*].valor").value(hasItem(DEFAULT_VALOR.doubleValue())))
@@ -792,7 +809,7 @@ class CursoResourceIT {
         // Disconnect from session so that the updates on updatedCurso are not directly saved in db
         em.detach(updatedCurso);
         updatedCurso
-            .curso(UPDATED_CURSO)
+            .titulo(UPDATED_TITULO)
             .duracaoCH(UPDATED_DURACAO_CH)
             .descricao(UPDATED_DESCRICAO)
             .valor(UPDATED_VALOR)
@@ -811,7 +828,7 @@ class CursoResourceIT {
         List<Curso> cursoList = cursoRepository.findAll();
         assertThat(cursoList).hasSize(databaseSizeBeforeUpdate);
         Curso testCurso = cursoList.get(cursoList.size() - 1);
-        assertThat(testCurso.getCurso()).isEqualTo(UPDATED_CURSO);
+        assertThat(testCurso.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testCurso.getDuracaoCH()).isEqualTo(UPDATED_DURACAO_CH);
         assertThat(testCurso.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testCurso.getValor()).isEqualTo(UPDATED_VALOR);
@@ -895,7 +912,7 @@ class CursoResourceIT {
         Curso partialUpdatedCurso = new Curso();
         partialUpdatedCurso.setId(curso.getId());
 
-        partialUpdatedCurso.curso(UPDATED_CURSO).duracaoCH(UPDATED_DURACAO_CH).descricao(UPDATED_DESCRICAO);
+        partialUpdatedCurso.titulo(UPDATED_TITULO).duracaoCH(UPDATED_DURACAO_CH).descricao(UPDATED_DESCRICAO);
 
         restCursoMockMvc
             .perform(
@@ -909,7 +926,7 @@ class CursoResourceIT {
         List<Curso> cursoList = cursoRepository.findAll();
         assertThat(cursoList).hasSize(databaseSizeBeforeUpdate);
         Curso testCurso = cursoList.get(cursoList.size() - 1);
-        assertThat(testCurso.getCurso()).isEqualTo(UPDATED_CURSO);
+        assertThat(testCurso.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testCurso.getDuracaoCH()).isEqualTo(UPDATED_DURACAO_CH);
         assertThat(testCurso.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testCurso.getValor()).isEqualTo(DEFAULT_VALOR);
@@ -929,7 +946,7 @@ class CursoResourceIT {
         partialUpdatedCurso.setId(curso.getId());
 
         partialUpdatedCurso
-            .curso(UPDATED_CURSO)
+            .titulo(UPDATED_TITULO)
             .duracaoCH(UPDATED_DURACAO_CH)
             .descricao(UPDATED_DESCRICAO)
             .valor(UPDATED_VALOR)
@@ -947,7 +964,7 @@ class CursoResourceIT {
         List<Curso> cursoList = cursoRepository.findAll();
         assertThat(cursoList).hasSize(databaseSizeBeforeUpdate);
         Curso testCurso = cursoList.get(cursoList.size() - 1);
-        assertThat(testCurso.getCurso()).isEqualTo(UPDATED_CURSO);
+        assertThat(testCurso.getTitulo()).isEqualTo(UPDATED_TITULO);
         assertThat(testCurso.getDuracaoCH()).isEqualTo(UPDATED_DURACAO_CH);
         assertThat(testCurso.getDescricao()).isEqualTo(UPDATED_DESCRICAO);
         assertThat(testCurso.getValor()).isEqualTo(UPDATED_VALOR);

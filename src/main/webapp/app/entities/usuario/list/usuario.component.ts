@@ -57,7 +57,7 @@ export class UsuarioComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IUsuario): number {
+  trackId(_index: number, item: IUsuario): number {
     return item.id!;
   }
 

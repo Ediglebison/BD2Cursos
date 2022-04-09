@@ -16,6 +16,11 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="bd2CursosApp.usuario.nome" for="field_nome">Nome</label>
           <input type="text" class="form-control" name="nome" id="field_nome" data-cy="nome" formControlName="nome" />
+          <div *ngIf="editForm.get('nome')!.invalid && (editForm.get('nome')!.dirty || editForm.get('nome')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('nome')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -40,6 +45,16 @@
               <fa-icon icon="calendar-alt"></fa-icon>
             </button>
           </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="bd2CursosApp.usuario.tipo" for="field_tipo">Tipo</label>
+          <select class="form-control" name="tipo" formControlName="tipo" id="field_tipo" data-cy="tipo">
+            <option [ngValue]="null">{{ 'bd2CursosApp.TipoUsuario.null' | translate }}</option>
+            <option *ngFor="let tipoUsuario of tipoUsuarioValues" [value]="tipoUsuario">
+              {{ 'bd2CursosApp.TipoUsuario.' + tipoUsuario | translate }}
+            </option>
+          </select>
         </div>
 
         <div class="row mb-3">

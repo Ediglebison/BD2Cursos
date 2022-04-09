@@ -12,8 +12,6 @@ import { IEndereco, Endereco } from '../endereco.model';
 import { EnderecoService } from '../service/endereco.service';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
-import { IProfessor } from 'app/entities/professor/professor.model';
-import { ProfessorService } from 'app/entities/professor/service/professor.service';
 
 @Component({
   selector: 'jhi-endereco-update',
@@ -23,7 +21,6 @@ export class EnderecoUpdateComponent implements OnInit {
   isSaving = false;
 
   usuariosSharedCollection: IUsuario[] = [];
-  professorsSharedCollection: IProfessor[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -36,13 +33,11 @@ export class EnderecoUpdateComponent implements OnInit {
     estado: [],
     criacao: [],
     usuario: [],
-    professor: [],
   });
 
   constructor(
     protected enderecoService: EnderecoService,
     protected usuarioService: UsuarioService,
-    protected professorService: ProfessorService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -74,11 +69,7 @@ export class EnderecoUpdateComponent implements OnInit {
     }
   }
 
-  trackUsuarioById(index: number, item: IUsuario): number {
-    return item.id!;
-  }
-
-  trackProfessorById(index: number, item: IProfessor): number {
+  trackUsuarioById(_index: number, item: IUsuario): number {
     return item.id!;
   }
 
@@ -113,14 +104,9 @@ export class EnderecoUpdateComponent implements OnInit {
       estado: endereco.estado,
       criacao: endereco.criacao ? endereco.criacao.format(DATE_TIME_FORMAT) : null,
       usuario: endereco.usuario,
-      professor: endereco.professor,
     });
 
     this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing(this.usuariosSharedCollection, endereco.usuario);
-    this.professorsSharedCollection = this.professorService.addProfessorToCollectionIfMissing(
-      this.professorsSharedCollection,
-      endereco.professor
-    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -131,16 +117,6 @@ export class EnderecoUpdateComponent implements OnInit {
         map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing(usuarios, this.editForm.get('usuario')!.value))
       )
       .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
-
-    this.professorService
-      .query()
-      .pipe(map((res: HttpResponse<IProfessor[]>) => res.body ?? []))
-      .pipe(
-        map((professors: IProfessor[]) =>
-          this.professorService.addProfessorToCollectionIfMissing(professors, this.editForm.get('professor')!.value)
-        )
-      )
-      .subscribe((professors: IProfessor[]) => (this.professorsSharedCollection = professors));
   }
 
   protected createFromForm(): IEndereco {
@@ -156,7 +132,6 @@ export class EnderecoUpdateComponent implements OnInit {
       estado: this.editForm.get(['estado'])!.value,
       criacao: this.editForm.get(['criacao'])!.value ? dayjs(this.editForm.get(['criacao'])!.value, DATE_TIME_FORMAT) : undefined,
       usuario: this.editForm.get(['usuario'])!.value,
-      professor: this.editForm.get(['professor'])!.value,
     };
   }
 }

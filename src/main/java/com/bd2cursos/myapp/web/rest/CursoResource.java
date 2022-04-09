@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +60,7 @@ public class CursoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/cursos")
-    public ResponseEntity<CursoDTO> createCurso(@RequestBody CursoDTO cursoDTO) throws URISyntaxException {
+    public ResponseEntity<CursoDTO> createCurso(@Valid @RequestBody CursoDTO cursoDTO) throws URISyntaxException {
         log.debug("REST request to save Curso : {}", cursoDTO);
         if (cursoDTO.getId() != null) {
             throw new BadRequestAlertException("A new curso cannot already have an ID", ENTITY_NAME, "idexists");
@@ -83,7 +85,7 @@ public class CursoResource {
     @PutMapping("/cursos/{id}")
     public ResponseEntity<CursoDTO> updateCurso(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody CursoDTO cursoDTO
+        @Valid @RequestBody CursoDTO cursoDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Curso : {}, {}", id, cursoDTO);
         if (cursoDTO.getId() == null) {
@@ -97,7 +99,7 @@ public class CursoResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        CursoDTO result = cursoService.save(cursoDTO);
+        CursoDTO result = cursoService.update(cursoDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cursoDTO.getId().toString()))
@@ -118,7 +120,7 @@ public class CursoResource {
     @PatchMapping(value = "/cursos/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<CursoDTO> partialUpdateCurso(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody CursoDTO cursoDTO
+        @NotNull @RequestBody CursoDTO cursoDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Curso partially : {}, {}", id, cursoDTO);
         if (cursoDTO.getId() == null) {

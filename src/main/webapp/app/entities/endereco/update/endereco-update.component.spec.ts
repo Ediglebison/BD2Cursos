@@ -10,8 +10,6 @@ import { EnderecoService } from '../service/endereco.service';
 import { IEndereco, Endereco } from '../endereco.model';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
-import { IProfessor } from 'app/entities/professor/professor.model';
-import { ProfessorService } from 'app/entities/professor/service/professor.service';
 
 import { EnderecoUpdateComponent } from './endereco-update.component';
 
@@ -21,7 +19,6 @@ describe('Endereco Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let enderecoService: EnderecoService;
   let usuarioService: UsuarioService;
-  let professorService: ProfessorService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +41,6 @@ describe('Endereco Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     enderecoService = TestBed.inject(EnderecoService);
     usuarioService = TestBed.inject(UsuarioService);
-    professorService = TestBed.inject(ProfessorService);
 
     comp = fixture.componentInstance;
   });
@@ -69,38 +65,16 @@ describe('Endereco Management Update Component', () => {
       expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Professor query and add missing value', () => {
-      const endereco: IEndereco = { id: 456 };
-      const professor: IProfessor = { id: 31393 };
-      endereco.professor = professor;
-
-      const professorCollection: IProfessor[] = [{ id: 22672 }];
-      jest.spyOn(professorService, 'query').mockReturnValue(of(new HttpResponse({ body: professorCollection })));
-      const additionalProfessors = [professor];
-      const expectedCollection: IProfessor[] = [...additionalProfessors, ...professorCollection];
-      jest.spyOn(professorService, 'addProfessorToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ endereco });
-      comp.ngOnInit();
-
-      expect(professorService.query).toHaveBeenCalled();
-      expect(professorService.addProfessorToCollectionIfMissing).toHaveBeenCalledWith(professorCollection, ...additionalProfessors);
-      expect(comp.professorsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const endereco: IEndereco = { id: 456 };
       const usuario: IUsuario = { id: 69298 };
       endereco.usuario = usuario;
-      const professor: IProfessor = { id: 66855 };
-      endereco.professor = professor;
 
       activatedRoute.data = of({ endereco });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(endereco));
       expect(comp.usuariosSharedCollection).toContain(usuario);
-      expect(comp.professorsSharedCollection).toContain(professor);
     });
   });
 
@@ -173,14 +147,6 @@ describe('Endereco Management Update Component', () => {
       it('Should return tracked Usuario primary key', () => {
         const entity = { id: 123 };
         const trackResult = comp.trackUsuarioById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
-    });
-
-    describe('trackProfessorById', () => {
-      it('Should return tracked Professor primary key', () => {
-        const entity = { id: 123 };
-        const trackResult = comp.trackProfessorById(0, entity);
         expect(trackResult).toEqual(entity.id);
       });
     });

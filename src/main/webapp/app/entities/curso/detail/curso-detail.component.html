@@ -14,9 +14,9 @@
         <dd>
           <span>{{ curso.id }}</span>
         </dd>
-        <dt><span jhiTranslate="bd2CursosApp.curso.curso">Curso</span></dt>
+        <dt><span jhiTranslate="bd2CursosApp.curso.titulo">Titulo</span></dt>
         <dd>
-          <span>{{ curso.curso }}</span>
+          <span>{{ curso.titulo }}</span>
         </dd>
         <dt><span jhiTranslate="bd2CursosApp.curso.duracaoCH">Duracao CH</span></dt>
         <dd>
@@ -37,13 +37,13 @@
         <dt><span jhiTranslate="bd2CursosApp.curso.professor">Professor</span></dt>
         <dd>
           <div *ngIf="curso.professor">
-            <a [routerLink]="['/professor', curso.professor?.id, 'view']">{{ curso.professor?.id }}</a>
+            <a [routerLink]="['/usuario', curso.professor?.id, 'view']">{{ curso.professor?.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="bd2CursosApp.curso.usuario">Usuario</span></dt>
+        <dt><span jhiTranslate="bd2CursosApp.curso.aluno">Aluno</span></dt>
         <dd>
-          <div *ngIf="curso.usuario">
-            <a [routerLink]="['/usuario', curso.usuario?.id, 'view']">{{ curso.usuario?.id }}</a>
+          <div *ngIf="curso.aluno">
+            <a [routerLink]="['/usuario', curso.aluno?.id, 'view']">{{ curso.aluno?.id }}</a>
           </div>
         </dd>
       </dl>

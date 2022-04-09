@@ -99,6 +99,9 @@ public class UsuarioQueryService extends QueryService<Usuario> {
             if (criteria.getDataNascimento() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataNascimento(), Usuario_.dataNascimento));
             }
+            if (criteria.getTipo() != null) {
+                specification = specification.and(buildSpecification(criteria.getTipo(), Usuario_.tipo));
+            }
             if (criteria.getCriacao() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCriacao(), Usuario_.criacao));
             }

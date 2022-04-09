@@ -41,9 +41,6 @@
             <column name="usuario_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="professor_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="endereco" columnName="criacao" columnDataType="${datetimeType}"/>

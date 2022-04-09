@@ -18,6 +18,14 @@ public interface CursoService {
     CursoDTO save(CursoDTO cursoDTO);
 
     /**
+     * Updates a curso.
+     *
+     * @param cursoDTO the entity to update.
+     * @return the persisted entity.
+     */
+    CursoDTO update(CursoDTO cursoDTO);
+
+    /**
      * Partially updates a curso.
      *
      * @param cursoDTO the entity to update partially.

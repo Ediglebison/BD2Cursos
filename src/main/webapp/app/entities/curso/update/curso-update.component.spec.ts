@@ -8,8 +8,6 @@ import { of, Subject, from } from 'rxjs';
 
 import { CursoService } from '../service/curso.service';
 import { ICurso, Curso } from '../curso.model';
-import { IProfessor } from 'app/entities/professor/professor.model';
-import { ProfessorService } from 'app/entities/professor/service/professor.service';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
 
@@ -20,7 +18,6 @@ describe('Curso Management Update Component', () => {
   let fixture: ComponentFixture<CursoUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let cursoService: CursoService;
-  let professorService: ProfessorService;
   let usuarioService: UsuarioService;
 
   beforeEach(() => {
@@ -43,40 +40,22 @@ describe('Curso Management Update Component', () => {
     fixture = TestBed.createComponent(CursoUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     cursoService = TestBed.inject(CursoService);
-    professorService = TestBed.inject(ProfessorService);
     usuarioService = TestBed.inject(UsuarioService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Professor query and add missing value', () => {
-      const curso: ICurso = { id: 456 };
-      const professor: IProfessor = { id: 85189 };
-      curso.professor = professor;
-
-      const professorCollection: IProfessor[] = [{ id: 42138 }];
-      jest.spyOn(professorService, 'query').mockReturnValue(of(new HttpResponse({ body: professorCollection })));
-      const additionalProfessors = [professor];
-      const expectedCollection: IProfessor[] = [...additionalProfessors, ...professorCollection];
-      jest.spyOn(professorService, 'addProfessorToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ curso });
-      comp.ngOnInit();
-
-      expect(professorService.query).toHaveBeenCalled();
-      expect(professorService.addProfessorToCollectionIfMissing).toHaveBeenCalledWith(professorCollection, ...additionalProfessors);
-      expect(comp.professorsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should call Usuario query and add missing value', () => {
       const curso: ICurso = { id: 456 };
-      const usuario: IUsuario = { id: 88725 };
-      curso.usuario = usuario;
+      const professor: IUsuario = { id: 88725 };
+      curso.professor = professor;
+      const aluno: IUsuario = { id: 16792 };
+      curso.aluno = aluno;
 
-      const usuarioCollection: IUsuario[] = [{ id: 16792 }];
+      const usuarioCollection: IUsuario[] = [{ id: 85434 }];
       jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [usuario];
+      const additionalUsuarios = [professor, aluno];
       const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
       jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -90,17 +69,17 @@ describe('Curso Management Update Component', () => {
 
     it('Should update editForm', () => {
       const curso: ICurso = { id: 456 };
-      const professor: IProfessor = { id: 26749 };
+      const professor: IUsuario = { id: 35374 };
       curso.professor = professor;
-      const usuario: IUsuario = { id: 85434 };
-      curso.usuario = usuario;
+      const aluno: IUsuario = { id: 47796 };
+      curso.aluno = aluno;
 
       activatedRoute.data = of({ curso });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(curso));
-      expect(comp.professorsSharedCollection).toContain(professor);
-      expect(comp.usuariosSharedCollection).toContain(usuario);
+      expect(comp.usuariosSharedCollection).toContain(professor);
+      expect(comp.usuariosSharedCollection).toContain(aluno);
     });
   });
 
@@ -169,14 +148,6 @@ describe('Curso Management Update Component', () => {
   });
 
   describe('Tracking relationships identifiers', () => {
-    describe('trackProfessorById', () => {
-      it('Should return tracked Professor primary key', () => {
-        const entity = { id: 123 };
-        const trackResult = comp.trackProfessorById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
-    });
-
     describe('trackUsuarioById', () => {
       it('Should return tracked Usuario primary key', () => {
         const entity = { id: 123 };

@@ -14,8 +14,8 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="curso" type="varchar(255)">
-                <constraints nullable="true" />
+            <column name="titulo" type="varchar(255)">
+                <constraints nullable="false" />
             </column>
             <column name="duracao_ch" type="double">
                 <constraints nullable="true" />
@@ -32,7 +32,7 @@
             <column name="professor_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="usuario_id" type="bigint">
+            <column name="aluno_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -57,7 +57,7 @@
                   tableName="curso"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="curso" type="string"/>
+            <column name="titulo" type="string"/>
             <column name="duracao_ch" type="numeric"/>
             <column name="descricao" type="string"/>
             <column name="valor" type="numeric"/>

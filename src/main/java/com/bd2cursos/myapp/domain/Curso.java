@@ -3,6 +3,7 @@ package com.bd2cursos.myapp.domain;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -22,8 +23,9 @@ public class Curso implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "curso")
-    private String curso;
+    @NotNull
+    @Column(name = "titulo", nullable = false)
+    private String titulo;
 
     @Column(name = "duracao_ch")
     private Double duracaoCH;
@@ -38,10 +40,10 @@ public class Curso implements Serializable {
     private ZonedDateTime criacao;
 
     @ManyToOne
-    private Professor professor;
+    private Usuario professor;
 
     @ManyToOne
-    private Usuario usuario;
+    private Usuario aluno;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -58,17 +60,17 @@ public class Curso implements Serializable {
         this.id = id;
     }
 
-    public String getCurso() {
-        return this.curso;
+    public String getTitulo() {
+        return this.titulo;
     }
 
-    public Curso curso(String curso) {
-        this.setCurso(curso);
+    public Curso titulo(String titulo) {
+        this.setTitulo(titulo);
         return this;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Double getDuracaoCH() {
@@ -123,29 +125,29 @@ public class Curso implements Serializable {
         this.criacao = criacao;
     }
 
-    public Professor getProfessor() {
+    public Usuario getProfessor() {
         return this.professor;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
+    public void setProfessor(Usuario usuario) {
+        this.professor = usuario;
     }
 
-    public Curso professor(Professor professor) {
-        this.setProfessor(professor);
+    public Curso professor(Usuario usuario) {
+        this.setProfessor(usuario);
         return this;
     }
 
-    public Usuario getUsuario() {
-        return this.usuario;
+    public Usuario getAluno() {
+        return this.aluno;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setAluno(Usuario usuario) {
+        this.aluno = usuario;
     }
 
-    public Curso usuario(Usuario usuario) {
-        this.setUsuario(usuario);
+    public Curso aluno(Usuario usuario) {
+        this.setAluno(usuario);
         return this;
     }
 
@@ -173,7 +175,7 @@ public class Curso implements Serializable {
     public String toString() {
         return "Curso{" +
             "id=" + getId() +
-            ", curso='" + getCurso() + "'" +
+            ", titulo='" + getTitulo() + "'" +
             ", duracaoCH=" + getDuracaoCH() +
             ", descricao='" + getDescricao() + "'" +
             ", valor=" + getValor() +

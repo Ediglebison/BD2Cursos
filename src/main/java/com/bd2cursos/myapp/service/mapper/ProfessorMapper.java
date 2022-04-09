@@ -7,10 +7,5 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Professor} and its DTO {@link ProfessorDTO}.
  */
-@Mapper(componentModel = "spring", uses = {})
-public interface ProfessorMapper extends EntityMapper<ProfessorDTO, Professor> {
-    @Named("id")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    ProfessorDTO toDtoId(Professor professor);
-}
+@Mapper(componentModel = "spring")
+public interface ProfessorMapper extends EntityMapper<ProfessorDTO, Professor> {}

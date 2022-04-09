@@ -40,6 +40,14 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
+    public ProfessorDTO update(ProfessorDTO professorDTO) {
+        log.debug("Request to save Professor : {}", professorDTO);
+        Professor professor = professorMapper.toEntity(professorDTO);
+        professor = professorRepository.save(professor);
+        return professorMapper.toDto(professor);
+    }
+
+    @Override
     public Optional<ProfessorDTO> partialUpdate(ProfessorDTO professorDTO) {
         log.debug("Request to partially update Professor : {}", professorDTO);
 

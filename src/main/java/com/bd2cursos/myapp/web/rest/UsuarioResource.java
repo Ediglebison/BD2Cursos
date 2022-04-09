@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +60,7 @@ public class UsuarioResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/usuarios")
-    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioDTO usuarioDTO) throws URISyntaxException {
+    public ResponseEntity<UsuarioDTO> createUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) throws URISyntaxException {
         log.debug("REST request to save Usuario : {}", usuarioDTO);
         if (usuarioDTO.getId() != null) {
             throw new BadRequestAlertException("A new usuario cannot already have an ID", ENTITY_NAME, "idexists");
@@ -83,7 +85,7 @@ public class UsuarioResource {
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<UsuarioDTO> updateUsuario(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody UsuarioDTO usuarioDTO
+        @Valid @RequestBody UsuarioDTO usuarioDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Usuario : {}, {}", id, usuarioDTO);
         if (usuarioDTO.getId() == null) {
@@ -97,7 +99,7 @@ public class UsuarioResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        UsuarioDTO result = usuarioService.save(usuarioDTO);
+        UsuarioDTO result = usuarioService.update(usuarioDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, usuarioDTO.getId().toString()))
@@ -118,7 +120,7 @@ public class UsuarioResource {
     @PatchMapping(value = "/usuarios/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<UsuarioDTO> partialUpdateUsuario(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody UsuarioDTO usuarioDTO
+        @NotNull @RequestBody UsuarioDTO usuarioDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Usuario partially : {}, {}", id, usuarioDTO);
         if (usuarioDTO.getId() == null) {

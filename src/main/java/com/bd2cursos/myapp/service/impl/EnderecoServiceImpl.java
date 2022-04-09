@@ -40,6 +40,14 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
+    public EnderecoDTO update(EnderecoDTO enderecoDTO) {
+        log.debug("Request to save Endereco : {}", enderecoDTO);
+        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
+        endereco = enderecoRepository.save(endereco);
+        return enderecoMapper.toDto(endereco);
+    }
+
+    @Override
     public Optional<EnderecoDTO> partialUpdate(EnderecoDTO enderecoDTO) {
         log.debug("Request to partially update Endereco : {}", enderecoDTO);
 

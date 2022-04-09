@@ -11,6 +11,7 @@
         "endereco": "Endereco",
         "professor": "Professor",
         "curso": "Curso",
+        "compra": "Compra",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

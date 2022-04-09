@@ -29,8 +29,6 @@ public class EnderecoDTO implements Serializable {
 
     private UsuarioDTO usuario;
 
-    private ProfessorDTO professor;
-
     public Long getId() {
         return id;
     }
@@ -111,14 +109,6 @@ public class EnderecoDTO implements Serializable {
         this.usuario = usuario;
     }
 
-    public ProfessorDTO getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(ProfessorDTO professor) {
-        this.professor = professor;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -154,7 +144,6 @@ public class EnderecoDTO implements Serializable {
             ", estado='" + getEstado() + "'" +
             ", criacao='" + getCriacao() + "'" +
             ", usuario=" + getUsuario() +
-            ", professor=" + getProfessor() +
             "}";
     }
 }

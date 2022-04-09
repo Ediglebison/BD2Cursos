@@ -29,7 +29,7 @@ public class CursoCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter curso;
+    private StringFilter titulo;
 
     private DoubleFilter duracaoCH;
 
@@ -41,7 +41,7 @@ public class CursoCriteria implements Serializable, Criteria {
 
     private LongFilter professorId;
 
-    private LongFilter usuarioId;
+    private LongFilter alunoId;
 
     private Boolean distinct;
 
@@ -49,13 +49,13 @@ public class CursoCriteria implements Serializable, Criteria {
 
     public CursoCriteria(CursoCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.curso = other.curso == null ? null : other.curso.copy();
+        this.titulo = other.titulo == null ? null : other.titulo.copy();
         this.duracaoCH = other.duracaoCH == null ? null : other.duracaoCH.copy();
         this.descricao = other.descricao == null ? null : other.descricao.copy();
         this.valor = other.valor == null ? null : other.valor.copy();
         this.criacao = other.criacao == null ? null : other.criacao.copy();
         this.professorId = other.professorId == null ? null : other.professorId.copy();
-        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
+        this.alunoId = other.alunoId == null ? null : other.alunoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -79,19 +79,19 @@ public class CursoCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getCurso() {
-        return curso;
+    public StringFilter getTitulo() {
+        return titulo;
     }
 
-    public StringFilter curso() {
-        if (curso == null) {
-            curso = new StringFilter();
+    public StringFilter titulo() {
+        if (titulo == null) {
+            titulo = new StringFilter();
         }
-        return curso;
+        return titulo;
     }
 
-    public void setCurso(StringFilter curso) {
-        this.curso = curso;
+    public void setTitulo(StringFilter titulo) {
+        this.titulo = titulo;
     }
 
     public DoubleFilter getDuracaoCH() {
@@ -169,19 +169,19 @@ public class CursoCriteria implements Serializable, Criteria {
         this.professorId = professorId;
     }
 
-    public LongFilter getUsuarioId() {
-        return usuarioId;
+    public LongFilter getAlunoId() {
+        return alunoId;
     }
 
-    public LongFilter usuarioId() {
-        if (usuarioId == null) {
-            usuarioId = new LongFilter();
+    public LongFilter alunoId() {
+        if (alunoId == null) {
+            alunoId = new LongFilter();
         }
-        return usuarioId;
+        return alunoId;
     }
 
-    public void setUsuarioId(LongFilter usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setAlunoId(LongFilter alunoId) {
+        this.alunoId = alunoId;
     }
 
     public Boolean getDistinct() {
@@ -203,20 +203,20 @@ public class CursoCriteria implements Serializable, Criteria {
         final CursoCriteria that = (CursoCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(curso, that.curso) &&
+            Objects.equals(titulo, that.titulo) &&
             Objects.equals(duracaoCH, that.duracaoCH) &&
             Objects.equals(descricao, that.descricao) &&
             Objects.equals(valor, that.valor) &&
             Objects.equals(criacao, that.criacao) &&
             Objects.equals(professorId, that.professorId) &&
-            Objects.equals(usuarioId, that.usuarioId) &&
+            Objects.equals(alunoId, that.alunoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, curso, duracaoCH, descricao, valor, criacao, professorId, usuarioId, distinct);
+        return Objects.hash(id, titulo, duracaoCH, descricao, valor, criacao, professorId, alunoId, distinct);
     }
 
     // prettier-ignore
@@ -224,13 +224,13 @@ public class CursoCriteria implements Serializable, Criteria {
     public String toString() {
         return "CursoCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (curso != null ? "curso=" + curso + ", " : "") +
+            (titulo != null ? "titulo=" + titulo + ", " : "") +
             (duracaoCH != null ? "duracaoCH=" + duracaoCH + ", " : "") +
             (descricao != null ? "descricao=" + descricao + ", " : "") +
             (valor != null ? "valor=" + valor + ", " : "") +
             (criacao != null ? "criacao=" + criacao + ", " : "") +
             (professorId != null ? "professorId=" + professorId + ", " : "") +
-            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
+            (alunoId != null ? "alunoId=" + alunoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

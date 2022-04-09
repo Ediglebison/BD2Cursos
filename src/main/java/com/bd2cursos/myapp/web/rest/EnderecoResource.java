@@ -101,7 +101,7 @@ public class EnderecoResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        EnderecoDTO result = enderecoService.save(enderecoDTO);
+        EnderecoDTO result = enderecoService.update(enderecoDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, enderecoDTO.getId().toString()))

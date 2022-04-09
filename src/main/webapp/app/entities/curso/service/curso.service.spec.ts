@@ -25,7 +25,7 @@ describe('Curso Service', () => {
 
     elemDefault = {
       id: 0,
-      curso: 'AAAAAAA',
+      titulo: 'AAAAAAA',
       duracaoCH: 0,
       descricao: 'AAAAAAA',
       valor: 0,
@@ -76,7 +76,7 @@ describe('Curso Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          curso: 'BBBBBB',
+          titulo: 'BBBBBB',
           duracaoCH: 1,
           descricao: 'BBBBBB',
           valor: 1,
@@ -102,7 +102,7 @@ describe('Curso Service', () => {
     it('should partial update a Curso', () => {
       const patchObject = Object.assign(
         {
-          curso: 'BBBBBB',
+          titulo: 'BBBBBB',
           criacao: currentDate.format(DATE_TIME_FORMAT),
         },
         new Curso()
@@ -128,7 +128,7 @@ describe('Curso Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          curso: 'BBBBBB',
+          titulo: 'BBBBBB',
           duracaoCH: 1,
           descricao: 'BBBBBB',
           valor: 1,

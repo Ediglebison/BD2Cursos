@@ -47,8 +47,6 @@ public class EnderecoCriteria implements Serializable, Criteria {
 
     private LongFilter usuarioId;
 
-    private LongFilter professorId;
-
     private Boolean distinct;
 
     public EnderecoCriteria() {}
@@ -64,7 +62,6 @@ public class EnderecoCriteria implements Serializable, Criteria {
         this.estado = other.estado == null ? null : other.estado.copy();
         this.criacao = other.criacao == null ? null : other.criacao.copy();
         this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
-        this.professorId = other.professorId == null ? null : other.professorId.copy();
         this.distinct = other.distinct;
     }
 
@@ -223,21 +220,6 @@ public class EnderecoCriteria implements Serializable, Criteria {
         this.usuarioId = usuarioId;
     }
 
-    public LongFilter getProfessorId() {
-        return professorId;
-    }
-
-    public LongFilter professorId() {
-        if (professorId == null) {
-            professorId = new LongFilter();
-        }
-        return professorId;
-    }
-
-    public void setProfessorId(LongFilter professorId) {
-        this.professorId = professorId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -266,14 +248,13 @@ public class EnderecoCriteria implements Serializable, Criteria {
             Objects.equals(estado, that.estado) &&
             Objects.equals(criacao, that.criacao) &&
             Objects.equals(usuarioId, that.usuarioId) &&
-            Objects.equals(professorId, that.professorId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cep, logradouro, complemento, numero, bairro, cidade, estado, criacao, usuarioId, professorId, distinct);
+        return Objects.hash(id, cep, logradouro, complemento, numero, bairro, cidade, estado, criacao, usuarioId, distinct);
     }
 
     // prettier-ignore
@@ -290,7 +271,6 @@ public class EnderecoCriteria implements Serializable, Criteria {
             (estado != null ? "estado=" + estado + ", " : "") +
             (criacao != null ? "criacao=" + criacao + ", " : "") +
             (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
-            (professorId != null ? "professorId=" + professorId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

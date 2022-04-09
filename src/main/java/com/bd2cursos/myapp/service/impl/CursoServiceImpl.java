@@ -40,6 +40,14 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    public CursoDTO update(CursoDTO cursoDTO) {
+        log.debug("Request to save Curso : {}", cursoDTO);
+        Curso curso = cursoMapper.toEntity(cursoDTO);
+        curso = cursoRepository.save(curso);
+        return cursoMapper.toDto(curso);
+    }
+
+    @Override
     public Optional<CursoDTO> partialUpdate(CursoDTO cursoDTO) {
         log.debug("Request to partially update Curso : {}", cursoDTO);
 

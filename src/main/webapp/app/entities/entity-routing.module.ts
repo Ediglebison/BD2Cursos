@@ -24,6 +24,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'bd2CursosApp.curso.home.title' },
         loadChildren: () => import('./curso/curso.module').then(m => m.CursoModule),
       },
+      {
+        path: 'compra',
+        data: { pageTitle: 'bd2CursosApp.compra.home.title' },
+        loadChildren: () => import('./compra/compra.module').then(m => m.CompraModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

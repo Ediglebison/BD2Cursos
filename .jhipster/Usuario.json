@@ -7,7 +7,8 @@
   "fields": [
     {
       "fieldName": "nome",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "cpf",
@@ -16,6 +17,11 @@
     {
       "fieldName": "dataNascimento",
       "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "tipo",
+      "fieldType": "TipoUsuario",
+      "fieldValues": "ALUNO,PROFESSOR"
     },
     {
       "fieldName": "criacao",

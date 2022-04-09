@@ -18,6 +18,14 @@ public interface EnderecoService {
     EnderecoDTO save(EnderecoDTO enderecoDTO);
 
     /**
+     * Updates a endereco.
+     *
+     * @param enderecoDTO the entity to update.
+     * @return the persisted entity.
+     */
+    EnderecoDTO update(EnderecoDTO enderecoDTO);
+
+    /**
      * Partially updates a endereco.
      *
      * @param enderecoDTO the entity to update partially.

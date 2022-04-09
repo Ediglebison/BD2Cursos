@@ -40,6 +40,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public UsuarioDTO update(UsuarioDTO usuarioDTO) {
+        log.debug("Request to save Usuario : {}", usuarioDTO);
+        Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
+        usuario = usuarioRepository.save(usuario);
+        return usuarioMapper.toDto(usuario);
+    }
+
+    @Override
     public Optional<UsuarioDTO> partialUpdate(UsuarioDTO usuarioDTO) {
         log.debug("Request to partially update Usuario : {}", usuarioDTO);
 

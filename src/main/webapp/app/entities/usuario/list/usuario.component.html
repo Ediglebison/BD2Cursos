@@ -38,6 +38,7 @@
           <th scope="col" jhiSortBy="dataNascimento">
             <span jhiTranslate="bd2CursosApp.usuario.dataNascimento">Data Nascimento</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="tipo"><span jhiTranslate="bd2CursosApp.usuario.tipo">Tipo</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="criacao">
             <span jhiTranslate="bd2CursosApp.usuario.criacao">Criacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -52,6 +53,7 @@
           <td>{{ usuario.nome }}</td>
           <td>{{ usuario.cpf }}</td>
           <td>{{ usuario.dataNascimento | formatMediumDate }}</td>
+          <td jhiTranslate="{{ 'bd2CursosApp.TipoUsuario.' + usuario.tipo }}">{{ usuario.tipo }}</td>
           <td>{{ usuario.criacao | formatMediumDatetime }}</td>
           <td class="text-end">
             <div class="btn-group">

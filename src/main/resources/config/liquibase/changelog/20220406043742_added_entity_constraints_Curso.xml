@@ -12,11 +12,11 @@
                                  baseTableName="curso"
                                  constraintName="fk_curso__professor_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="professor"/>
+                                 referencedTableName="usuario"/>
 
-        <addForeignKeyConstraint baseColumnNames="usuario_id"
+        <addForeignKeyConstraint baseColumnNames="aluno_id"
                                  baseTableName="curso"
-                                 constraintName="fk_curso__usuario_id"
+                                 constraintName="fk_curso__aluno_id"
                                  referencedColumnNames="id"
                                  referencedTableName="usuario"/>
     </changeSet>

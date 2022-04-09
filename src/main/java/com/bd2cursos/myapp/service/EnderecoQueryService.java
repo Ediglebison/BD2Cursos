@@ -120,15 +120,6 @@ public class EnderecoQueryService extends QueryService<Endereco> {
                         buildSpecification(criteria.getUsuarioId(), root -> root.join(Endereco_.usuario, JoinType.LEFT).get(Usuario_.id))
                     );
             }
-            if (criteria.getProfessorId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getProfessorId(),
-                            root -> root.join(Endereco_.professor, JoinType.LEFT).get(Professor_.id)
-                        )
-                    );
-            }
         }
         return specification;
     }

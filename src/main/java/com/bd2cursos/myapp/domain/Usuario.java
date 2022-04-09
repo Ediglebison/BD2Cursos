@@ -1,9 +1,11 @@
 package com.bd2cursos.myapp.domain;
 
+import com.bd2cursos.myapp.domain.enumeration.TipoUsuario;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,7 +25,8 @@ public class Usuario implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome")
+    @NotNull
+    @Column(name = "nome", nullable = false)
     private String nome;
 
     @Column(name = "cpf")
@@ -31,6 +34,10 @@ public class Usuario implements Serializable {
 
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private TipoUsuario tipo;
 
     @Column(name = "criacao")
     private ZonedDateTime criacao;
@@ -89,6 +96,19 @@ public class Usuario implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
+    public TipoUsuario getTipo() {
+        return this.tipo;
+    }
+
+    public Usuario tipo(TipoUsuario tipo) {
+        this.setTipo(tipo);
+        return this;
+    }
+
+    public void setTipo(TipoUsuario tipo) {
+        this.tipo = tipo;
+    }
+
     public ZonedDateTime getCriacao() {
         return this.criacao;
     }
@@ -129,6 +149,7 @@ public class Usuario implements Serializable {
             ", nome='" + getNome() + "'" +
             ", cpf='" + getCpf() + "'" +
             ", dataNascimento='" + getDataNascimento() + "'" +
+            ", tipo='" + getTipo() + "'" +
             ", criacao='" + getCriacao() + "'" +
             "}";
     }

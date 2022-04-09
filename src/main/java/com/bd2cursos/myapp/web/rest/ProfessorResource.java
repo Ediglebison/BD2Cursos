@@ -101,7 +101,7 @@ public class ProfessorResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        ProfessorDTO result = professorService.save(professorDTO);
+        ProfessorDTO result = professorService.update(professorDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, professorDTO.getId().toString()))

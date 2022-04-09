@@ -18,6 +18,14 @@ public interface ProfessorService {
     ProfessorDTO save(ProfessorDTO professorDTO);
 
     /**
+     * Updates a professor.
+     *
+     * @param professorDTO the entity to update.
+     * @return the persisted entity.
+     */
+    ProfessorDTO update(ProfessorDTO professorDTO);
+
+    /**
      * Partially updates a professor.
      *
      * @param professorDTO the entity to update partially.

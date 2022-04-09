@@ -26,6 +26,10 @@
         <dd>
           <span>{{ usuario.dataNascimento | formatMediumDate }}</span>
         </dd>
+        <dt><span jhiTranslate="bd2CursosApp.usuario.tipo">Tipo</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bd2CursosApp.TipoUsuario.' + usuario.tipo }}">{{ usuario.tipo }}</span>
+        </dd>
         <dt><span jhiTranslate="bd2CursosApp.usuario.criacao">Criacao</span></dt>
         <dd>
           <span>{{ usuario.criacao | formatMediumDatetime }}</span>
