@@ -1,6 +1,7 @@
 package com.bd2cursos.myapp.service.dto;
 
 import com.bd2cursos.myapp.domain.enumeration.EstadoTransacao;
+import com.bd2cursos.myapp.domain.enumeration.Pagamento;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -17,6 +18,8 @@ public class CompraDTO implements Serializable {
     private Double valorFinal;
 
     private ZonedDateTime dataCriacao;
+
+    private Pagamento formaPagamento;
 
     private EstadoTransacao estado;
 
@@ -54,6 +57,14 @@ public class CompraDTO implements Serializable {
 
     public void setDataCriacao(ZonedDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public Pagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(Pagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     public EstadoTransacao getEstado() {
@@ -109,6 +120,7 @@ public class CompraDTO implements Serializable {
             ", percentualDesconto=" + getPercentualDesconto() +
             ", valorFinal=" + getValorFinal() +
             ", dataCriacao='" + getDataCriacao() + "'" +
+            ", formaPagamento='" + getFormaPagamento() + "'" +
             ", estado='" + getEstado() + "'" +
             ", curso=" + getCurso() +
             ", usuario=" + getUsuario() +

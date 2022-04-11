@@ -23,6 +23,9 @@
             <column name="data_criacao" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
+            <column name="forma_pagamento" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="estado" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -57,6 +60,7 @@
             <column name="percentual_desconto" type="numeric"/>
             <column name="valor_final" type="numeric"/>
             <column name="data_criacao" type="date"/>
+            <column name="forma_pagamento" type="string"/>
             <column name="estado" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

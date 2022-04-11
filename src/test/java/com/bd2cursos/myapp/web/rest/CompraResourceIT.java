@@ -12,6 +12,7 @@ import com.bd2cursos.myapp.domain.Compra;
 import com.bd2cursos.myapp.domain.Curso;
 import com.bd2cursos.myapp.domain.Usuario;
 import com.bd2cursos.myapp.domain.enumeration.EstadoTransacao;
+import com.bd2cursos.myapp.domain.enumeration.Pagamento;
 import com.bd2cursos.myapp.repository.CompraRepository;
 import com.bd2cursos.myapp.service.CompraService;
 import com.bd2cursos.myapp.service.criteria.CompraCriteria;
@@ -61,6 +62,9 @@ class CompraResourceIT {
     private static final ZonedDateTime UPDATED_DATA_CRIACAO = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
     private static final ZonedDateTime SMALLER_DATA_CRIACAO = ZonedDateTime.ofInstant(Instant.ofEpochMilli(-1L), ZoneOffset.UTC);
 
+    private static final Pagamento DEFAULT_FORMA_PAGAMENTO = Pagamento.BOLETO;
+    private static final Pagamento UPDATED_FORMA_PAGAMENTO = Pagamento.CARTAO_CREDITO;
+
     private static final EstadoTransacao DEFAULT_ESTADO = EstadoTransacao.CRIADO;
     private static final EstadoTransacao UPDATED_ESTADO = EstadoTransacao.AGUARDANDO_PAGAMENTO;
 
@@ -101,6 +105,7 @@ class CompraResourceIT {
             .percentualDesconto(DEFAULT_PERCENTUAL_DESCONTO)
             .valorFinal(DEFAULT_VALOR_FINAL)
             .dataCriacao(DEFAULT_DATA_CRIACAO)
+            .formaPagamento(DEFAULT_FORMA_PAGAMENTO)
             .estado(DEFAULT_ESTADO);
         return compra;
     }
@@ -116,6 +121,7 @@ class CompraResourceIT {
             .percentualDesconto(UPDATED_PERCENTUAL_DESCONTO)
             .valorFinal(UPDATED_VALOR_FINAL)
             .dataCriacao(UPDATED_DATA_CRIACAO)
+            .formaPagamento(UPDATED_FORMA_PAGAMENTO)
             .estado(UPDATED_ESTADO);
         return compra;
     }
@@ -142,6 +148,7 @@ class CompraResourceIT {
         assertThat(testCompra.getPercentualDesconto()).isEqualTo(DEFAULT_PERCENTUAL_DESCONTO);
         assertThat(testCompra.getValorFinal()).isEqualTo(DEFAULT_VALOR_FINAL);
         assertThat(testCompra.getDataCriacao()).isEqualTo(DEFAULT_DATA_CRIACAO);
+        assertThat(testCompra.getFormaPagamento()).isEqualTo(DEFAULT_FORMA_PAGAMENTO);
         assertThat(testCompra.getEstado()).isEqualTo(DEFAULT_ESTADO);
     }
 
@@ -179,6 +186,7 @@ class CompraResourceIT {
             .andExpect(jsonPath("$.[*].percentualDesconto").value(hasItem(DEFAULT_PERCENTUAL_DESCONTO.doubleValue())))
             .andExpect(jsonPath("$.[*].valorFinal").value(hasItem(DEFAULT_VALOR_FINAL.doubleValue())))
             .andExpect(jsonPath("$.[*].dataCriacao").value(hasItem(sameInstant(DEFAULT_DATA_CRIACAO))))
+            .andExpect(jsonPath("$.[*].formaPagamento").value(hasItem(DEFAULT_FORMA_PAGAMENTO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())));
     }
 
@@ -215,6 +223,7 @@ class CompraResourceIT {
             .andExpect(jsonPath("$.percentualDesconto").value(DEFAULT_PERCENTUAL_DESCONTO.doubleValue()))
             .andExpect(jsonPath("$.valorFinal").value(DEFAULT_VALOR_FINAL.doubleValue()))
             .andExpect(jsonPath("$.dataCriacao").value(sameInstant(DEFAULT_DATA_CRIACAO)))
+            .andExpect(jsonPath("$.formaPagamento").value(DEFAULT_FORMA_PAGAMENTO.toString()))
             .andExpect(jsonPath("$.estado").value(DEFAULT_ESTADO.toString()));
     }
 
@@ -550,6 +559,58 @@ class CompraResourceIT {
 
     @Test
     @Transactional
+    void getAllComprasByFormaPagamentoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        compraRepository.saveAndFlush(compra);
+
+        // Get all the compraList where formaPagamento equals to DEFAULT_FORMA_PAGAMENTO
+        defaultCompraShouldBeFound("formaPagamento.equals=" + DEFAULT_FORMA_PAGAMENTO);
+
+        // Get all the compraList where formaPagamento equals to UPDATED_FORMA_PAGAMENTO
+        defaultCompraShouldNotBeFound("formaPagamento.equals=" + UPDATED_FORMA_PAGAMENTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllComprasByFormaPagamentoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        compraRepository.saveAndFlush(compra);
+
+        // Get all the compraList where formaPagamento not equals to DEFAULT_FORMA_PAGAMENTO
+        defaultCompraShouldNotBeFound("formaPagamento.notEquals=" + DEFAULT_FORMA_PAGAMENTO);
+
+        // Get all the compraList where formaPagamento not equals to UPDATED_FORMA_PAGAMENTO
+        defaultCompraShouldBeFound("formaPagamento.notEquals=" + UPDATED_FORMA_PAGAMENTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllComprasByFormaPagamentoIsInShouldWork() throws Exception {
+        // Initialize the database
+        compraRepository.saveAndFlush(compra);
+
+        // Get all the compraList where formaPagamento in DEFAULT_FORMA_PAGAMENTO or UPDATED_FORMA_PAGAMENTO
+        defaultCompraShouldBeFound("formaPagamento.in=" + DEFAULT_FORMA_PAGAMENTO + "," + UPDATED_FORMA_PAGAMENTO);
+
+        // Get all the compraList where formaPagamento equals to UPDATED_FORMA_PAGAMENTO
+        defaultCompraShouldNotBeFound("formaPagamento.in=" + UPDATED_FORMA_PAGAMENTO);
+    }
+
+    @Test
+    @Transactional
+    void getAllComprasByFormaPagamentoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        compraRepository.saveAndFlush(compra);
+
+        // Get all the compraList where formaPagamento is not null
+        defaultCompraShouldBeFound("formaPagamento.specified=true");
+
+        // Get all the compraList where formaPagamento is null
+        defaultCompraShouldNotBeFound("formaPagamento.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllComprasByEstadoIsEqualToSomething() throws Exception {
         // Initialize the database
         compraRepository.saveAndFlush(compra);
@@ -664,6 +725,7 @@ class CompraResourceIT {
             .andExpect(jsonPath("$.[*].percentualDesconto").value(hasItem(DEFAULT_PERCENTUAL_DESCONTO.doubleValue())))
             .andExpect(jsonPath("$.[*].valorFinal").value(hasItem(DEFAULT_VALOR_FINAL.doubleValue())))
             .andExpect(jsonPath("$.[*].dataCriacao").value(hasItem(sameInstant(DEFAULT_DATA_CRIACAO))))
+            .andExpect(jsonPath("$.[*].formaPagamento").value(hasItem(DEFAULT_FORMA_PAGAMENTO.toString())))
             .andExpect(jsonPath("$.[*].estado").value(hasItem(DEFAULT_ESTADO.toString())));
 
         // Check, that the count call also returns 1
@@ -716,6 +778,7 @@ class CompraResourceIT {
             .percentualDesconto(UPDATED_PERCENTUAL_DESCONTO)
             .valorFinal(UPDATED_VALOR_FINAL)
             .dataCriacao(UPDATED_DATA_CRIACAO)
+            .formaPagamento(UPDATED_FORMA_PAGAMENTO)
             .estado(UPDATED_ESTADO);
         CompraDTO compraDTO = compraMapper.toDto(updatedCompra);
 
@@ -734,6 +797,7 @@ class CompraResourceIT {
         assertThat(testCompra.getPercentualDesconto()).isEqualTo(UPDATED_PERCENTUAL_DESCONTO);
         assertThat(testCompra.getValorFinal()).isEqualTo(UPDATED_VALOR_FINAL);
         assertThat(testCompra.getDataCriacao()).isEqualTo(UPDATED_DATA_CRIACAO);
+        assertThat(testCompra.getFormaPagamento()).isEqualTo(UPDATED_FORMA_PAGAMENTO);
         assertThat(testCompra.getEstado()).isEqualTo(UPDATED_ESTADO);
     }
 
@@ -814,7 +878,11 @@ class CompraResourceIT {
         Compra partialUpdatedCompra = new Compra();
         partialUpdatedCompra.setId(compra.getId());
 
-        partialUpdatedCompra.percentualDesconto(UPDATED_PERCENTUAL_DESCONTO).valorFinal(UPDATED_VALOR_FINAL).estado(UPDATED_ESTADO);
+        partialUpdatedCompra
+            .percentualDesconto(UPDATED_PERCENTUAL_DESCONTO)
+            .valorFinal(UPDATED_VALOR_FINAL)
+            .formaPagamento(UPDATED_FORMA_PAGAMENTO)
+            .estado(UPDATED_ESTADO);
 
         restCompraMockMvc
             .perform(
@@ -831,6 +899,7 @@ class CompraResourceIT {
         assertThat(testCompra.getPercentualDesconto()).isEqualTo(UPDATED_PERCENTUAL_DESCONTO);
         assertThat(testCompra.getValorFinal()).isEqualTo(UPDATED_VALOR_FINAL);
         assertThat(testCompra.getDataCriacao()).isEqualTo(DEFAULT_DATA_CRIACAO);
+        assertThat(testCompra.getFormaPagamento()).isEqualTo(UPDATED_FORMA_PAGAMENTO);
         assertThat(testCompra.getEstado()).isEqualTo(UPDATED_ESTADO);
     }
 
@@ -850,6 +919,7 @@ class CompraResourceIT {
             .percentualDesconto(UPDATED_PERCENTUAL_DESCONTO)
             .valorFinal(UPDATED_VALOR_FINAL)
             .dataCriacao(UPDATED_DATA_CRIACAO)
+            .formaPagamento(UPDATED_FORMA_PAGAMENTO)
             .estado(UPDATED_ESTADO);
 
         restCompraMockMvc
@@ -867,6 +937,7 @@ class CompraResourceIT {
         assertThat(testCompra.getPercentualDesconto()).isEqualTo(UPDATED_PERCENTUAL_DESCONTO);
         assertThat(testCompra.getValorFinal()).isEqualTo(UPDATED_VALOR_FINAL);
         assertThat(testCompra.getDataCriacao()).isEqualTo(UPDATED_DATA_CRIACAO);
+        assertThat(testCompra.getFormaPagamento()).isEqualTo(UPDATED_FORMA_PAGAMENTO);
         assertThat(testCompra.getEstado()).isEqualTo(UPDATED_ESTADO);
     }
 

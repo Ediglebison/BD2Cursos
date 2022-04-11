@@ -99,6 +99,9 @@ public class CompraQueryService extends QueryService<Compra> {
             if (criteria.getDataCriacao() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDataCriacao(), Compra_.dataCriacao));
             }
+            if (criteria.getFormaPagamento() != null) {
+                specification = specification.and(buildSpecification(criteria.getFormaPagamento(), Compra_.formaPagamento));
+            }
             if (criteria.getEstado() != null) {
                 specification = specification.and(buildSpecification(criteria.getEstado(), Compra_.estado));
             }

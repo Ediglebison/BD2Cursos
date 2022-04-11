@@ -14,6 +14,7 @@ import { ICurso } from 'app/entities/curso/curso.model';
 import { CursoService } from 'app/entities/curso/service/curso.service';
 import { IUsuario } from 'app/entities/usuario/usuario.model';
 import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { Pagamento } from 'app/entities/enumerations/pagamento.model';
 import { EstadoTransacao } from 'app/entities/enumerations/estado-transacao.model';
 
 @Component({
@@ -22,6 +23,7 @@ import { EstadoTransacao } from 'app/entities/enumerations/estado-transacao.mode
 })
 export class CompraUpdateComponent implements OnInit {
   isSaving = false;
+  pagamentoValues = Object.keys(Pagamento);
   estadoTransacaoValues = Object.keys(EstadoTransacao);
 
   cursosSharedCollection: ICurso[] = [];
@@ -32,6 +34,7 @@ export class CompraUpdateComponent implements OnInit {
     percentualDesconto: [],
     valorFinal: [],
     dataCriacao: [],
+    formaPagamento: [],
     estado: [],
     curso: [],
     usuario: [],
@@ -105,6 +108,7 @@ export class CompraUpdateComponent implements OnInit {
       percentualDesconto: compra.percentualDesconto,
       valorFinal: compra.valorFinal,
       dataCriacao: compra.dataCriacao ? compra.dataCriacao.format(DATE_TIME_FORMAT) : null,
+      formaPagamento: compra.formaPagamento,
       estado: compra.estado,
       curso: compra.curso,
       usuario: compra.usuario,
@@ -139,6 +143,7 @@ export class CompraUpdateComponent implements OnInit {
       dataCriacao: this.editForm.get(['dataCriacao'])!.value
         ? dayjs(this.editForm.get(['dataCriacao'])!.value, DATE_TIME_FORMAT)
         : undefined,
+      formaPagamento: this.editForm.get(['formaPagamento'])!.value,
       estado: this.editForm.get(['estado'])!.value,
       curso: this.editForm.get(['curso'])!.value,
       usuario: this.editForm.get(['usuario'])!.value,

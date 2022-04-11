@@ -18,6 +18,11 @@
       "fieldType": "ZonedDateTime"
     },
     {
+      "fieldName": "formaPagamento",
+      "fieldType": "Pagamento",
+      "fieldValues": "BOLETO,CARTAO_CREDITO,CARTAO_DEBITO,PIX"
+    },
+    {
       "fieldName": "estado",
       "fieldType": "EstadoTransacao",
       "fieldValues": "CRIADO,AGUARDANDO_PAGAMENTO,PAGO,EXPIRADO,CANCELADO"
