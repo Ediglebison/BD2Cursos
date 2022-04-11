@@ -25,11 +25,16 @@ entity Compra {
     percentualDesconto Double
     valorFinal Double
     dataCriacao ZonedDateTime
+    formaPagamento Pagamento
     estado EstadoTransacao
 }
 
 enum EstadoTransacao {
 	CRIADO, AGUARDANDO_PAGAMENTO, PAGO, EXPIRADO, CANCELADO
+}
+
+enum Pagamento {
+	BOLETO, CARTAO_CREDITO, CARTAO_DEBITO, PIX
 }
 
 entity Curso {

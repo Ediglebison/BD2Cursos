@@ -1,6 +1,7 @@
 package com.bd2cursos.myapp.domain;
 
 import com.bd2cursos.myapp.domain.enumeration.EstadoTransacao;
+import com.bd2cursos.myapp.domain.enumeration.Pagamento;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -32,6 +33,10 @@ public class Compra implements Serializable {
 
     @Column(name = "data_criacao")
     private ZonedDateTime dataCriacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "forma_pagamento")
+    private Pagamento formaPagamento;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
@@ -96,6 +101,19 @@ public class Compra implements Serializable {
 
     public void setDataCriacao(ZonedDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public Pagamento getFormaPagamento() {
+        return this.formaPagamento;
+    }
+
+    public Compra formaPagamento(Pagamento formaPagamento) {
+        this.setFormaPagamento(formaPagamento);
+        return this;
+    }
+
+    public void setFormaPagamento(Pagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     public EstadoTransacao getEstado() {
@@ -164,6 +182,7 @@ public class Compra implements Serializable {
             ", percentualDesconto=" + getPercentualDesconto() +
             ", valorFinal=" + getValorFinal() +
             ", dataCriacao='" + getDataCriacao() + "'" +
+            ", formaPagamento='" + getFormaPagamento() + "'" +
             ", estado='" + getEstado() + "'" +
             "}";
     }

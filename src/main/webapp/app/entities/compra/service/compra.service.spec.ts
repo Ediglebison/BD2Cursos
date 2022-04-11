@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import dayjs from 'dayjs/esm';
 
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { Pagamento } from 'app/entities/enumerations/pagamento.model';
 import { EstadoTransacao } from 'app/entities/enumerations/estado-transacao.model';
 import { ICompra, Compra } from '../compra.model';
 
@@ -29,6 +30,7 @@ describe('Compra Service', () => {
       percentualDesconto: 0,
       valorFinal: 0,
       dataCriacao: currentDate,
+      formaPagamento: Pagamento.BOLETO,
       estado: EstadoTransacao.CRIADO,
     };
   });
@@ -79,6 +81,7 @@ describe('Compra Service', () => {
           percentualDesconto: 1,
           valorFinal: 1,
           dataCriacao: currentDate.format(DATE_TIME_FORMAT),
+          formaPagamento: 'BBBBBB',
           estado: 'BBBBBB',
         },
         elemDefault
@@ -103,7 +106,7 @@ describe('Compra Service', () => {
         {
           percentualDesconto: 1,
           dataCriacao: currentDate.format(DATE_TIME_FORMAT),
-          estado: 'BBBBBB',
+          formaPagamento: 'BBBBBB',
         },
         new Compra()
       );
@@ -131,6 +134,7 @@ describe('Compra Service', () => {
           percentualDesconto: 1,
           valorFinal: 1,
           dataCriacao: currentDate.format(DATE_TIME_FORMAT),
+          formaPagamento: 'BBBBBB',
           estado: 'BBBBBB',
         },
         elemDefault
@@ -188,7 +192,7 @@ describe('Compra Service', () => {
       });
 
       it('should add only unique Compra to an array', () => {
-        const compraArray: ICompra[] = [{ id: 123 }, { id: 456 }, { id: 11521 }];
+        const compraArray: ICompra[] = [{ id: 123 }, { id: 456 }, { id: 23126 }];
         const compraCollection: ICompra[] = [{ id: 123 }];
         expectedResult = service.addCompraToCollectionIfMissing(compraCollection, ...compraArray);
         expect(expectedResult).toHaveLength(3);

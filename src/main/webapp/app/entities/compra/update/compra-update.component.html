@@ -55,6 +55,22 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" jhiTranslate="bd2CursosApp.compra.formaPagamento" for="field_formaPagamento">Forma Pagamento</label>
+          <select
+            class="form-control"
+            name="formaPagamento"
+            formControlName="formaPagamento"
+            id="field_formaPagamento"
+            data-cy="formaPagamento"
+          >
+            <option [ngValue]="null">{{ 'bd2CursosApp.Pagamento.null' | translate }}</option>
+            <option *ngFor="let pagamento of pagamentoValues" [value]="pagamento">
+              {{ 'bd2CursosApp.Pagamento.' + pagamento | translate }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="bd2CursosApp.compra.estado" for="field_estado">Estado</label>
           <select class="form-control" name="estado" formControlName="estado" id="field_estado" data-cy="estado">
             <option [ngValue]="null">{{ 'bd2CursosApp.EstadoTransacao.null' | translate }}</option>

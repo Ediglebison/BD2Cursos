@@ -1,6 +1,7 @@
 package com.bd2cursos.myapp.service.criteria;
 
 import com.bd2cursos.myapp.domain.enumeration.EstadoTransacao;
+import com.bd2cursos.myapp.domain.enumeration.Pagamento;
 import java.io.Serializable;
 import java.util.Objects;
 import org.springdoc.api.annotations.ParameterObject;
@@ -25,6 +26,23 @@ import tech.jhipster.service.filter.ZonedDateTimeFilter;
  */
 @ParameterObject
 public class CompraCriteria implements Serializable, Criteria {
+
+    /**
+     * Class for filtering Pagamento
+     */
+    public static class PagamentoFilter extends Filter<Pagamento> {
+
+        public PagamentoFilter() {}
+
+        public PagamentoFilter(PagamentoFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public PagamentoFilter copy() {
+            return new PagamentoFilter(this);
+        }
+    }
 
     /**
      * Class for filtering EstadoTransacao
@@ -53,6 +71,8 @@ public class CompraCriteria implements Serializable, Criteria {
 
     private ZonedDateTimeFilter dataCriacao;
 
+    private PagamentoFilter formaPagamento;
+
     private EstadoTransacaoFilter estado;
 
     private LongFilter cursoId;
@@ -68,6 +88,7 @@ public class CompraCriteria implements Serializable, Criteria {
         this.percentualDesconto = other.percentualDesconto == null ? null : other.percentualDesconto.copy();
         this.valorFinal = other.valorFinal == null ? null : other.valorFinal.copy();
         this.dataCriacao = other.dataCriacao == null ? null : other.dataCriacao.copy();
+        this.formaPagamento = other.formaPagamento == null ? null : other.formaPagamento.copy();
         this.estado = other.estado == null ? null : other.estado.copy();
         this.cursoId = other.cursoId == null ? null : other.cursoId.copy();
         this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
@@ -139,6 +160,21 @@ public class CompraCriteria implements Serializable, Criteria {
         this.dataCriacao = dataCriacao;
     }
 
+    public PagamentoFilter getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public PagamentoFilter formaPagamento() {
+        if (formaPagamento == null) {
+            formaPagamento = new PagamentoFilter();
+        }
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(PagamentoFilter formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
     public EstadoTransacaoFilter getEstado() {
         return estado;
     }
@@ -206,6 +242,7 @@ public class CompraCriteria implements Serializable, Criteria {
             Objects.equals(percentualDesconto, that.percentualDesconto) &&
             Objects.equals(valorFinal, that.valorFinal) &&
             Objects.equals(dataCriacao, that.dataCriacao) &&
+            Objects.equals(formaPagamento, that.formaPagamento) &&
             Objects.equals(estado, that.estado) &&
             Objects.equals(cursoId, that.cursoId) &&
             Objects.equals(usuarioId, that.usuarioId) &&
@@ -215,7 +252,7 @@ public class CompraCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, percentualDesconto, valorFinal, dataCriacao, estado, cursoId, usuarioId, distinct);
+        return Objects.hash(id, percentualDesconto, valorFinal, dataCriacao, formaPagamento, estado, cursoId, usuarioId, distinct);
     }
 
     // prettier-ignore
@@ -226,6 +263,7 @@ public class CompraCriteria implements Serializable, Criteria {
             (percentualDesconto != null ? "percentualDesconto=" + percentualDesconto + ", " : "") +
             (valorFinal != null ? "valorFinal=" + valorFinal + ", " : "") +
             (dataCriacao != null ? "dataCriacao=" + dataCriacao + ", " : "") +
+            (formaPagamento != null ? "formaPagamento=" + formaPagamento + ", " : "") +
             (estado != null ? "estado=" + estado + ", " : "") +
             (cursoId != null ? "cursoId=" + cursoId + ", " : "") +
             (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +

@@ -26,6 +26,10 @@
         <dd>
           <span>{{ compra.dataCriacao | formatMediumDatetime }}</span>
         </dd>
+        <dt><span jhiTranslate="bd2CursosApp.compra.formaPagamento">Forma Pagamento</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bd2CursosApp.Pagamento.' + compra.formaPagamento }}">{{ compra.formaPagamento }}</span>
+        </dd>
         <dt><span jhiTranslate="bd2CursosApp.compra.estado">Estado</span></dt>
         <dd>
           <span jhiTranslate="{{ 'bd2CursosApp.EstadoTransacao.' + compra.estado }}">{{ compra.estado }}</span>

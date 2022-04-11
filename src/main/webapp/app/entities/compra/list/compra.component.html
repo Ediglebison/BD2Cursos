@@ -42,6 +42,9 @@
           <th scope="col" jhiSortBy="dataCriacao">
             <span jhiTranslate="bd2CursosApp.compra.dataCriacao">Data Criacao</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="formaPagamento">
+            <span jhiTranslate="bd2CursosApp.compra.formaPagamento">Forma Pagamento</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="estado">
             <span jhiTranslate="bd2CursosApp.compra.estado">Estado</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -62,6 +65,7 @@
           <td>{{ compra.percentualDesconto }}</td>
           <td>{{ compra.valorFinal }}</td>
           <td>{{ compra.dataCriacao | formatMediumDatetime }}</td>
+          <td jhiTranslate="{{ 'bd2CursosApp.Pagamento.' + compra.formaPagamento }}">{{ compra.formaPagamento }}</td>
           <td jhiTranslate="{{ 'bd2CursosApp.EstadoTransacao.' + compra.estado }}">{{ compra.estado }}</td>
           <td>
             <div *ngIf="compra.curso">
